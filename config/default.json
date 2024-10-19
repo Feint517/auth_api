@@ -1,0 +1,6 @@
+{
+    "jwt": {
+        "accessTokenLife": "15m",
+        "refreshTokenLife": "7d"
+    }
+}

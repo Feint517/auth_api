@@ -1,0 +1,31 @@
+GET http://localhost:3000
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3Mjg2ODk5MzUsImV4cCI6MTcyODY4OTk1MCwiYXVkIjoiNjcwOTYwM2RiYTQwN2ZkMWVhMjdiZTFlIiwiaXNzIjoiaWRrLmNvbSJ9.LIUVvVz5cDr6AjOnVeouirmppUtMxzDsWw3ShZB60pw
+
+###login route
+POST  http://localhost:3000/auth/login
+Content-Type: application/json
+
+{
+    "email":"arselene.test@gmail.com",
+    "password":"12345678"
+}
+
+###register route
+POST  http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+    "email":"arselene.test@gmail.com",
+    "password":"12345678"
+}
+
+###refresh-token route
+POST http://localhost:3000/auth/refresh-token
+Content-Type: application/json
+
+{
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3Mjg2ODk5MzUsImV4cCI6MTc2MDI0NzUzNSwiYXVkIjoiNjcwOTYwM2RiYTQwN2ZkMWVhMjdiZTFlIiwiaXNzIjoiaWRrLmNvbSJ9.bLctubDocxe1WzNiafZr5dZqWhubiVoSiTYWiH0z6Ak"
+}
+
+###logout route
+DELETE  http://localhost:3000/auth/logout
