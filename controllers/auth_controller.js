@@ -15,7 +15,7 @@ exports.register = async (req, res, next) => {
         //* Create new user and save to database
         const newUser = new User({
             email: result.email,
-            password: result.password  // Password will be hashed automatically via pre-save hook
+            password: result.password  //? Password will be hashed automatically via pre-save hook
         });
         await newUser.save();
 
@@ -24,8 +24,8 @@ exports.register = async (req, res, next) => {
         const refreshToken = signRefreshToken(newUser.id);
 
         //* Save tokens to user document
-        newUser.accessToken = accessToken;
-        newUser.refreshToken = refreshToken;
+        // newUser.accessToken = accessToken;
+        // newUser.refreshToken = refreshToken;
         await newUser.save();
 
         //* Send tokens back to the client
@@ -44,7 +44,7 @@ exports.login = async (req, res, next) => {
         const user = await User.findOne({ email: result.email });
         if (!user) throw createError.NotFound('User not found');
 
-        // Validate password
+        //* Validate password
         const isMatch = await user.isValidPassword(result.password);
         if (!isMatch) throw createError.Unauthorized('Username/password not valid');
 
