@@ -4,16 +4,22 @@ const bcrypt = require('bcrypt');
 const userSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
+    pin1: { type: String, required: true },
+    pin2: { type: String, required: true },
     accessToken: { type: String },
     refreshToken: { type: String },
-    tokenExpiresAt: { type: Date },  // for TTL if needed
+    accessTokenExpiresAt: { type: Date },
+    refreshTokenExpiresAt: { type: Date },
 });
 
-//* Hash password before saving
+//* Hash password and pins before saving
 userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return next();
+    if (!this.isModified('pin1') && !this.isModified('pin2')) return next();
     const salt = await bcrypt.genSalt(10);
     this.password = await bcrypt.hash(this.password, salt);
+    this.pin1 = await bcrypt.hash(this.pin1, salt);
+    this.pin2 = await bcrypt.hash(this.pin2, salt);
     next();
 });
 

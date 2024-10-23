@@ -1,12 +1,12 @@
 GET http://localhost:3000
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3Mjg2ODk5MzUsImV4cCI6MTcyODY4OTk1MCwiYXVkIjoiNjcwOTYwM2RiYTQwN2ZkMWVhMjdiZTFlIiwiaXNzIjoiaWRrLmNvbSJ9.LIUVvVz5cDr6AjOnVeouirmppUtMxzDsWw3ShZB60pw
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzE3ZGY3YTM1ZWM3YWI2MjE3MGY3MzQiLCJpYXQiOjE3Mjk2MjAxOTcsImV4cCI6MTcyOTYyMTA5N30.NgHpKuud59gyxlgm328u3Auua2Iuqpn6xSIfFxE6bD8
 
 ###login route
 POST  http://localhost:3000/auth/login
 Content-Type: application/json
 
 {
-    "email":"arselene.test@gmail.com",
+    "email":"arselene.test1@gmail.com",
     "password":"12345678"
 }
 
@@ -15,7 +15,7 @@ POST  http://localhost:3000/auth/register
 Content-Type: application/json
 
 {
-    "email":"arselene.test@gmail.com",
+    "email":"arselene.test1@gmail.com",
     "password":"12345678"
 }
 

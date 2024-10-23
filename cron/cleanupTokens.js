@@ -1,20 +1,19 @@
 const cron = require('node-cron');
 const User = require('../models/user_model');
 
-//? Cron job runs every day at midnight to remove expired tokens
-cron.schedule('0 0 * * *', async () => {
+//* Function to clean up expired tokens
+const cleanupExpiredTokens = async () => {
     console.log('Running token cleanup job...');
 
     const now = new Date();
 
     try {
-        //* Find users with expired refresh tokens and remove the tokens
+        //* Find and remove expired tokens
         await User.updateMany(
             { refreshTokenExpiresAt: { $lte: now } },
             { $unset: { refreshToken: "", refreshTokenExpiresAt: "" } }
         );
 
-        //* Optionally also clean up access tokens
         await User.updateMany(
             { accessTokenExpiresAt: { $lte: now } },
             { $unset: { accessToken: "", accessTokenExpiresAt: "" } }
@@ -24,4 +23,9 @@ cron.schedule('0 0 * * *', async () => {
     } catch (err) {
         console.error('Error during token cleanup:', err);
     }
-});
+};
+
+//* Schedule the cron job to run daily (or however you prefer)
+cron.schedule('0 0 * * *', cleanupExpiredTokens);
+
+module.exports = { cleanupExpiredTokens };

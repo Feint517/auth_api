@@ -1,7 +1,9 @@
 const User = require('../models/user_model');
 const createError = require('http-errors');
+const jwt = require('jsonwebtoken');
 const { signAccessToken, signRefreshToken } = require('../utils/jwtUtils');
 const { authSchema } = require('../validation/auth_validation');
+
 
 exports.register = async (req, res, next) => {
     try {
@@ -23,9 +25,17 @@ exports.register = async (req, res, next) => {
         const accessToken = signAccessToken(newUser.id);
         const refreshToken = signRefreshToken(newUser.id);
 
-        //* Save tokens to user document
-        // newUser.accessToken = accessToken;
-        // newUser.refreshToken = refreshToken;
+        //* Calculate expiration dates
+        //const accessTokenExpiresAt = new Date(Date.now() + jwt.decode(accessToken).exp * 1000);
+        //const refreshTokenExpiresAt = new Date(Date.now() + jwt.decode(refreshToken).exp * 1000);
+        const accessTokenExpiresAt = new Date(jwt.decode(accessToken).exp * 1000);
+        const refreshTokenExpiresAt = new Date(jwt.decode(refreshToken).exp * 1000);
+
+        //* Save tokens and expiration times to the user record
+        newUser.accessToken = accessToken;
+        newUser.refreshToken = refreshToken;
+        newUser.accessTokenExpiresAt = accessTokenExpiresAt;
+        newUser.refreshTokenExpiresAt = refreshTokenExpiresAt;
         await newUser.save();
 
         //* Send tokens back to the client
@@ -52,9 +62,16 @@ exports.login = async (req, res, next) => {
         const accessToken = signAccessToken(user.id);
         const refreshToken = signRefreshToken(user.id);
 
+        //const accessTokenExpiresAt = new Date(Date.now() + jwt.decode(accessToken).exp * 1000);
+        //const refreshTokenExpiresAt = new Date(Date.now() + jwt.decode(refreshToken).exp * 1000);
+        const accessTokenExpiresAt = new Date(jwt.decode(accessToken).exp * 1000);
+        const refreshTokenExpiresAt = new Date(jwt.decode(refreshToken).exp * 1000);
+
         //* Save tokens to the user document
         user.accessToken = accessToken;
         user.refreshToken = refreshToken;
+        user.accessTokenExpiresAt = accessTokenExpiresAt;
+        user.refreshTokenExpiresAt = refreshTokenExpiresAt;
         await user.save();
 
         res.json({ accessToken, refreshToken });
