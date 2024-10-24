@@ -17,7 +17,8 @@ exports.register = async (req, res, next) => {
         //* Create new user and save to database
         const newUser = new User({
             email: result.email,
-            password: result.password  //? Password will be hashed automatically via pre-save hook
+            password: result.password,  //? Password will be hashed automatically via pre-save hook
+            pin: result.pin,
         });
         await newUser.save();
 
@@ -26,8 +27,6 @@ exports.register = async (req, res, next) => {
         const refreshToken = signRefreshToken(newUser.id);
 
         //* Calculate expiration dates
-        //const accessTokenExpiresAt = new Date(Date.now() + jwt.decode(accessToken).exp * 1000);
-        //const refreshTokenExpiresAt = new Date(Date.now() + jwt.decode(refreshToken).exp * 1000);
         const accessTokenExpiresAt = new Date(jwt.decode(accessToken).exp * 1000);
         const refreshTokenExpiresAt = new Date(jwt.decode(refreshToken).exp * 1000);
 
@@ -58,12 +57,14 @@ exports.login = async (req, res, next) => {
         const isMatch = await user.isValidPassword(result.password);
         if (!isMatch) throw createError.Unauthorized('Username/password not valid');
 
+        //* Validate PIN
+        //const isPinMatch = await user.isValidPins(result.pin);
+        //if (!isPinMatch) throw createError.Unauthorized('Invalid PIN');
+
         //* Generate tokens
         const accessToken = signAccessToken(user.id);
         const refreshToken = signRefreshToken(user.id);
 
-        //const accessTokenExpiresAt = new Date(Date.now() + jwt.decode(accessToken).exp * 1000);
-        //const refreshTokenExpiresAt = new Date(Date.now() + jwt.decode(refreshToken).exp * 1000);
         const accessTokenExpiresAt = new Date(jwt.decode(accessToken).exp * 1000);
         const refreshTokenExpiresAt = new Date(jwt.decode(refreshToken).exp * 1000);
 
