@@ -18,7 +18,8 @@ exports.register = async (req, res, next) => {
         const newUser = new User({
             email: result.email,
             password: result.password,  //? Password will be hashed automatically via pre-save hook
-            pin: result.pin,
+            pin1: result.pin1,
+            pin2: result.pin2,
         });
         await newUser.save();
 
@@ -58,8 +59,8 @@ exports.login = async (req, res, next) => {
         if (!isMatch) throw createError.Unauthorized('Username/password not valid');
 
         //* Validate PIN
-        //const isPinMatch = await user.isValidPins(result.pin);
-        //if (!isPinMatch) throw createError.Unauthorized('Invalid PIN');
+        const isPinMatch = await user.isValidPins(result.pin1, result.pin2);
+        if (!isPinMatch) throw createError.Unauthorized('Invalid PIN');
 
         //* Generate tokens
         const accessToken = signAccessToken(user.id);
