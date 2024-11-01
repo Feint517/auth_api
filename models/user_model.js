@@ -4,7 +4,8 @@ const bcrypt = require('bcrypt');
 const userSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    pin: { type: String, required: true },
+    pin1: { type: String, required: true },
+    pin2: { type: String, required: true },
     accessToken: { type: String },
     refreshToken: { type: String },
     accessTokenExpiresAt: { type: Date },
@@ -12,14 +13,29 @@ const userSchema = new mongoose.Schema({
 });
 
 //* Hash password and pins before saving
+// userSchema.pre('save', async function (next) {
+//     if (!this.isModified('password')) return next();
+//     if (!this.isModified('pin')) return next();
+//     const salt = await bcrypt.genSalt(10);
+//     this.password = await bcrypt.hash(this.password, salt);
+//     this.pin = await bcrypt.hash(this.pin, salt);
+//     next();
+// });
+
 userSchema.pre('save', async function (next) {
-    if (!this.isModified('password')) return next();
-    if (!this.isModified('pin')) return next();
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
-    this.pin = await bcrypt.hash(this.pin, salt);
-    next();
-});
+    const user = this;
+    if (!user.isModified('password')) return next();
+    if (!user.isModified('pin1') && !user.isModified('pin2')) return next();
+    try {
+        const salt = await bcrypt.genSalt(10);
+        user.password = await bcrypt.hash(user.password, salt);
+        user.pin1 = await bcrypt.hash(user.pin1, salt);
+        user.pin2 = await bcrypt.hash(user.pin2, salt);
+        next();
+    } catch (error) {
+        next(error);
+    }
+})
 
 //* Method to compare password
 userSchema.methods.isValidPassword = async function (password) {
@@ -27,8 +43,10 @@ userSchema.methods.isValidPassword = async function (password) {
 };
 
 //* Method to validate the PIN
-userSchema.methods.isValidPins = async function (pin) {
-    return await bcrypt.compare(pin, this.pin);
+userSchema.methods.isPinValid = async function (pin1, pin2) {
+    const isPin1Match = await bcrypt.compare(pin1, this.pin1);
+    const isPin2Match = await bcrypt.compare(pin2, this.pin2);
+    return isPin1Match && isPin2Match;
 };
 
 const User = mongoose.model('User', userSchema);

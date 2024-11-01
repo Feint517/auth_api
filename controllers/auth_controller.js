@@ -5,6 +5,12 @@ const { signAccessToken, signRefreshToken } = require('../utils/jwtUtils');
 const { authSchema } = require('../validation/auth_validation');
 
 
+//* Function to generate a random 4-digit PIN
+const generateRandomPin = () => {
+    return Math.floor(1000 + Math.random() * 9000).toString();  // Generates a 4-digit string
+};
+
+
 exports.register = async (req, res, next) => {
     try {
         //* Validate user input
@@ -14,11 +20,18 @@ exports.register = async (req, res, next) => {
         const doesExist = await User.findOne({ email: result.email });
         if (doesExist) throw createError.Conflict(`Email ${result.email} is already registered`);
 
+        //* Generate two random PINs
+        const pin1 = generateRandomPin();
+        const pin2 = generateRandomPin();
+
         //* Create new user and save to database
         const newUser = new User({
             email: result.email,
             password: result.password,  //? Password will be hashed automatically via pre-save hook
-            pin: result.pin,
+            // pin1: result.pin1,
+            // pin2: result.pin2,
+            pin1: pin1,
+            pin2: pin2,
         });
         await newUser.save();
 
@@ -38,7 +51,7 @@ exports.register = async (req, res, next) => {
         await newUser.save();
 
         //* Send tokens back to the client
-        res.status(201).json({ accessToken, refreshToken });
+        res.status(201).json({ accessToken, refreshToken, pin1, pin2 });
     } catch (error) {
         if (error.isJoi === true) return next(createError.BadRequest('Invalid email or password'));
         next(error);
@@ -58,8 +71,8 @@ exports.login = async (req, res, next) => {
         if (!isMatch) throw createError.Unauthorized('Username/password not valid');
 
         //* Validate PIN
-        //const isPinMatch = await user.isValidPins(result.pin);
-        //if (!isPinMatch) throw createError.Unauthorized('Invalid PIN');
+        const isPinValid = await user.isPinValid(result.pin1, result.pin2);
+        if (!isPinValid) throw createError.Unauthorized('Invalid PIN codes');
 
         //* Generate tokens
         const accessToken = signAccessToken(user.id);

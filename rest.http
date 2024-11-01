@@ -8,7 +8,8 @@ Content-Type: application/json
 {
     "email":"arselene.test1@gmail.com",
     "password":"12345678",
-    "pin":"1242"
+    "pin1":"1253",
+    "pin2":"8280"
 }
 
 ###register route
@@ -17,8 +18,7 @@ Content-Type: application/json
 
 {
     "email":"arselene.test1@gmail.com",
-    "password":"12345678",
-    "pin":"1242"
+    "password":"12345678"
 }
 
 ###refresh-token route

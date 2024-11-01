@@ -1,5 +1,4 @@
 const express = require('express');
-//const mongoose = require('mongoose');
 const authRoutes = require('./routes/auth_routes');
 const createError = require('http-errors');
 require('dotenv').config();
