@@ -12,12 +12,45 @@ Content-Type: application/json
     "pin2":"8280"
 }
 
+
+###verify-credentials route
+POST  http://localhost:3000/auth/validate-credentials
+Content-Type: application/json
+
+{
+    "email":"arselene.test10010@gmail.com",
+    "password":"12345678"
+}
+
+###verify-pins route
+POST  http://localhost:3000/auth/validate-pins
+Content-Type: application/json
+
+{
+    "userId":"673c890cddde1c3a0267273d",
+    "pin1":"2518",
+    "pin2":"3888"
+}
+
+
+###verify-locations route
+POST  http://localhost:3000/auth/validate-location
+Content-Type: application/json
+
+{
+    "latitude":"36.815099",
+    "longitude":"7.716793"
+}
+
 ###register route
 POST  http://localhost:3000/auth/register
 Content-Type: application/json
 
 {
-    "email":"arselene.test1@gmail.com",
+    "firstName":"Arselene",
+    "lastName":"Meghlaoui",
+    "username":"exodia",
+    "email":"arselene.test10010@gmail.com",
     "password":"12345678"
 }
 
@@ -30,4 +63,9 @@ Content-Type: application/json
 }
 
 ###logout route
-DELETE  http://localhost:3000/auth/logout
+POST  http://localhost:3000/auth/logout
+Content-Type: application/json
+
+{
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzNjODkwY2RkZGUxYzNhMDI2NzI3M2QiLCJpYXQiOjE3MzI0ODU1MDgsImV4cCI6MTczMzA5MDMwOH0.G3qmAbInPbeL5hWyQkQFPY77szSihdOF43afcz32n2c"
+}
