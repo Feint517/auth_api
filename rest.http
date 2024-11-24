@@ -5,18 +5,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzE3Z
 GET http://localhost:3000/api/ping
 
 
-###login route
-POST  http://localhost:3000/auth/login
-Content-Type: application/json
-
-{
-    "email":"arselene.test1@gmail.com",
-    "password":"12345678",
-    "pin1":"1253",
-    "pin2":"8280"
-}
-
-
 ###verify-credentials route
 POST  http://localhost:3000/auth/validate-credentials
 Content-Type: application/json
@@ -31,9 +19,9 @@ POST  http://localhost:3000/auth/validate-pins
 Content-Type: application/json
 
 {
-    "userId":"673c890cddde1c3a0267273d",
-    "pin1":"2518",
-    "pin2":"3888"
+    "userId":"6743afbbb40446588a81063f",
+    "pin1":"1316",
+    "pin2":"4869"
 }
 
 
