@@ -1,5 +1,6 @@
 const express = require('express');
 const authRoutes = require('./routes/auth_routes');
+const pingRoute = require('./routes/server_routes');
 const createError = require('http-errors');
 require('dotenv').config();
 require('./utils/init_mongodb');
@@ -15,6 +16,7 @@ app.get('/', verifyAccessToken, async (req, res, next) => {
 })
 
 //* Routes
+app.use('/api', pingRoute); 
 app.use('/auth', authRoutes);
 
 app.use(async (req, res, next) => {

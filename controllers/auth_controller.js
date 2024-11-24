@@ -31,8 +31,7 @@ exports.register = async (req, res, next) => {
             username: result.username,
             email: result.email,
             password: result.password,  //? Password will be hashed automatically via pre-save hook
-            pin1: pin1,
-            pin2: pin2,
+            pin: result.pin,
         });
         await newUser.save();
 
@@ -110,77 +109,9 @@ exports.validateCredentials = async (req, res, next) => {
         const isMatch = await user.isValidPassword(result.password);
         if (!isMatch) throw createError.Unauthorized('Username/password not valid');
 
-        //* Return success message or temporary token
-        res.json({ message: 'Credentials valid. Please provide your PIN codes.', userId: user.id });
-    } catch (error) {
-        if (error.isJoi === true) return next(createError.BadRequest('Invalid email or password'));
-        next(error);
-    }
-};
-
-//* Step 2: Validate GeoLocation
-exports.validateGeoLocation = async (req, res, next) => {
-    try {
-        const { latitude, longitude } = req.body;
-
-        //* Find user by ID
-        // const user = await User.findById(userId);
-        // if (!user) throw createError.NotFound('User not found');
-
-        //* define allowed area
-        const allowedArea = {
-            latitude: 36.815099,   //? Center latitude
-            longitude: 7.716793, //? Center longitude
-            radius: 5000         //? Radius in meters (5 km)
-        };
-
-        //* user's location from requrest
-        const userLocation = {
-            latitude: parseFloat(latitude),
-            longitude: parseFloat(longitude)
-        };
-
-        //* Calculate the distance between user's location and allowed area
-        const distance = haversine(allowedArea, userLocation);
-
-        //* Check if the user is within the allowed radius
-        if (distance > allowedArea.radius) {
-            throw createError.Unauthorized('Login is only allowed in specific geographic areas');
-        }
-
-        // //* Generate tokens
-        // const accessToken = signAccessToken(user.id);
-        // const refreshToken = signRefreshToken(user.id);
-
-        // const accessTokenExpiresAt = new Date(jwt.decode(accessToken).exp * 1000);
-        // const refreshTokenExpiresAt = new Date(jwt.decode(refreshToken).exp * 1000);
-
-        // //* Save tokens to the user document
-        // user.accessToken = accessToken;
-        // user.refreshToken = refreshToken;
-        // user.accessTokenExpiresAt = accessTokenExpiresAt;
-        // user.refreshTokenExpiresAt = refreshTokenExpiresAt;
-        // await user.save();
-
-        res.json({ message: 'Location valid.' });
-
-    } catch (error) {
-        next(error);
-    }
-}
-
-//* Step 3: Validate PIN codes
-exports.validatePins = async (req, res, next) => {
-    try {
-        const { userId, pin1, pin2 } = req.body;
-
-        //* Find user by ID
-        const user = await User.findById(userId);
-        if (!user) throw createError.NotFound('User not found');
-
-        //* Validate PINs
-        const isPinValid = await user.isPinValid(pin1, pin2);
-        if (!isPinValid) throw createError.Unauthorized('Invalid PIN codes');
+        //* Validate PIN
+        //const isPinMatch = await user.isValidPins(result.pin);
+        //if (!isPinMatch) throw createError.Unauthorized('Invalid PIN');
 
         //* Generate tokens
         const accessToken = signAccessToken(user.id);
