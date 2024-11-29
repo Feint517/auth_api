@@ -15,16 +15,6 @@ const userSchema = new mongoose.Schema({
     refreshTokenExpiresAt: { type: Date },
 });
 
-//* Hash password and pins before saving
-// userSchema.pre('save', async function (next) {
-//     if (!this.isModified('password')) return next();
-//     if (!this.isModified('pin')) return next();
-//     const salt = await bcrypt.genSalt(10);
-//     this.password = await bcrypt.hash(this.password, salt);
-//     this.pin = await bcrypt.hash(this.pin, salt);
-//     next();
-// });
-
 userSchema.pre('save', async function (next) {
     const user = this;
     if (!user.isModified('password')) return next();

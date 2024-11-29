@@ -10,7 +10,6 @@ const verifyAccessToken = async (req, res, next) => {
         if (!authHeader) throw createError.Unauthorized('Access token is required');
 
         const token = authHeader.split(' ')[1];  //? Extract token after "Bearer"
-
         if (!token) throw createError.Unauthorized('Access token is required');
 
         //* Verify the token
@@ -44,4 +43,32 @@ const verifyAccessToken = async (req, res, next) => {
     }
 };
 
-module.exports = { verifyAccessToken };
+
+const authenticate = async (req, res, next) => {
+    try {
+        //* Check for the Authorization header
+        const authHeader = req.headers['authorization'];
+        if (!authHeader) throw createError.Unauthorized('Authorization header is missing');
+
+        //* Extract the token
+        const token = authHeader.split(' ')[1];
+        if (!token) throw createError.Unauthorized('Access token is missing');
+
+        //* Verify and decode the token
+        const payload = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
+
+        //* Attach the userId to the request object
+        req.userId = payload.id;
+        next();
+    } catch (error) {
+        if (error.name === 'JsonWebTokenError') {
+            next(createError.Unauthorized('Invalid access token'));
+        } else if (error.name === 'TokenExpiredError') {
+            next(createError.Unauthorized('Access token has expired'));
+        } else {
+            next(error);
+        }
+    }
+};
+
+module.exports = { verifyAccessToken, authenticate };

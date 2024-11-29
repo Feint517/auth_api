@@ -124,7 +124,6 @@ exports.validateGeoLocation = async (req, res, next) => {
     }
 }
 
-
 //* Step3: validate PINs
 exports.validatePins = async (req, res, next) => {
     try {
@@ -158,11 +157,7 @@ exports.validatePins = async (req, res, next) => {
     }
 };
 
-
-
-
-
-///* logout
+//* logout
 exports.logout = async (req, res, next) => {
     try {
         const { refreshToken } = req.body;
@@ -185,6 +180,89 @@ exports.logout = async (req, res, next) => {
         res.status(200).json({ message: 'Successfully logged out.' });
     } catch (error) {
         next(error);
+    }
+};
+
+
+exports.checkRefreshToken = async (req, res, next) => {
+    try {
+        const { refreshToken } = req.body;
+
+        if (!refreshToken) {
+            throw createError.BadRequest('Refresh token is required');
+        }
+
+        //* Find the user by refresh token
+        const user = await User.findOne({ refreshToken });
+        if (!user) {
+            throw createError.Unauthorized('Refresh token is invalid');
+        }
+
+        //* Check if the refresh token has expired
+        if (new Date() > user.refreshTokenExpiresAt) {
+            throw createError.Unauthorized('Refresh token has expired');
+        }
+
+        //* Verify the token's signature and payload
+        jwt.verify(
+            refreshToken,
+            process.env.REFRESH_TOKEN_SECRET,
+            (err, payload) => {
+                if (err) {
+                    throw createError.Unauthorized('Refresh token is invalid');
+                }
+                // Refresh token is valid
+                res.status(200).json({ message: 'Refresh token is valid' });
+            }
+        );
+    } catch (err) {
+        next(err);
+    }
+};
+
+exports.refreshTokens = async (req, res, next) => {
+    try {
+        const { refreshToken } = req.body;
+
+        if (!refreshToken) {
+            throw createError.BadRequest('Refresh token is required');
+        }
+
+        //* Find the user by refresh token
+        const user = await User.findOne({ refreshToken });
+        if (!user) {
+            throw createError.Unauthorized('Refresh token is invalid');
+        }
+
+        //* Check if the refresh token has expired
+        if (new Date() > user.refreshTokenExpiresAt) {
+            //* Generate a new refresh token and expiration date
+            // const newRefreshToken = jwt.sign(
+            //     { userId: user.id },
+            //     process.env.REFRESH_TOKEN_SECRET,
+            //     { expiresIn: '7d' } //? Set the new expiration time
+            // );
+            const newAccessToken = signAccessToken(user.id);
+            const newRefreshToken = signRefreshToken(user.id);
+
+            const newExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); //* 7 days from now
+
+            //* Update the user document
+            user.refreshToken = newRefreshToken;
+            user.refreshTokenExpiresAt = newExpiresAt;
+            await user.save();
+
+            return res.status(200).json({
+                accessToken: newAccessToken,
+                refreshToken: newRefreshToken,
+                refreshTokenExpiresAt: newExpiresAt,
+            });
+        }
+
+        // *Token is still valid; no need to re-generate
+        return res.status(400).json({ message: 'Refresh token is still valid' });
+    } catch (err) {
+        next(err);
     }
 };
 

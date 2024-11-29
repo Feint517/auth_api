@@ -14,5 +14,7 @@ router.post('/validate-pins', authController.validatePins);
 router.post('/validate-location', authController.validateGeoLocation);
 //*----------------------------------------------------------------------------------------
 router.post('/logout', authController.logout);
+router.post('/check-refresh-token', authController.checkRefreshToken);
+router.post('/refresh-tokens', authController.refreshTokens);
 
 module.exports = router;
