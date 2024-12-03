@@ -4,7 +4,7 @@ const createError = require('http-errors');
 exports.fetchUserData = async (req, res, next) => {
     try {
         const userId = req.userId; //? Extracted from the access token
-        const user = await User.findById(userId).select('-password'); //? Exclude sensitive fields like password
+        const user = await User.findById(userId).select('-password -pin1 -pin2 -__v -accessToken -accessTokenExpiresAt -refreshToken -refreshTokenExpiresAt'); //? Exclude sensitive fields like password
 
         if (!user) {
             throw createError.NotFound('User not found');

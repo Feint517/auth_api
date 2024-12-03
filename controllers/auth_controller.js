@@ -59,6 +59,7 @@ exports.register = async (req, res, next) => {
     }
 };
 
+//*-------------------------------------Login--------------------------------------------------------
 //* Step 1: Validate email and password
 exports.validateCredentials = async (req, res, next) => {
     try {
@@ -156,6 +157,7 @@ exports.validatePins = async (req, res, next) => {
         next(error);
     }
 };
+//*-------------------------------------------------------------------------------------------
 
 //* logout
 exports.logout = async (req, res, next) => {
@@ -173,8 +175,11 @@ exports.logout = async (req, res, next) => {
             throw createError.NotFound('User not found.');
         }
 
-        user.refreshToken = null; //? Clear the refresh token
-        user.accessToken = null; //? Optionally clear the access token
+        //* optionnaly clear the tokens
+        user.refreshToken = null;
+        user.refreshTokenExpiresAt = null;
+        user.accessToken = null;
+        user.accessTokenExpiresAt = null;
         user.save();
 
         res.status(200).json({ message: 'Successfully logged out.' });
@@ -182,7 +187,6 @@ exports.logout = async (req, res, next) => {
         next(error);
     }
 };
-
 
 exports.checkRefreshToken = async (req, res, next) => {
     try {
@@ -237,11 +241,6 @@ exports.refreshTokens = async (req, res, next) => {
         //* Check if the refresh token has expired
         if (new Date() > user.refreshTokenExpiresAt) {
             //* Generate a new refresh token and expiration date
-            // const newRefreshToken = jwt.sign(
-            //     { userId: user.id },
-            //     process.env.REFRESH_TOKEN_SECRET,
-            //     { expiresIn: '7d' } //? Set the new expiration time
-            // );
             const newAccessToken = signAccessToken(user.id);
             const newRefreshToken = signRefreshToken(user.id);
 
@@ -265,7 +264,3 @@ exports.refreshTokens = async (req, res, next) => {
         next(err);
     }
 };
-
-
-
-

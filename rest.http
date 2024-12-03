@@ -5,35 +5,6 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzQzY
 GET http://localhost:3000/api/ping
 
 
-###verify-credentials route
-POST  http://localhost:3000/auth/validate-credentials
-Content-Type: application/json
-
-{
-    "email":"arselene.test10010@gmail.com",
-    "password":"12345678"
-}
-
-###verify-pins route
-POST  http://localhost:3000/auth/validate-pins
-Content-Type: application/json
-
-{
-    "userId":"6743afbbb40446588a81063f",
-    "pin1":"1316",
-    "pin2":"4869"
-}
-
-
-###verify-locations route
-POST  http://localhost:3000/auth/validate-location
-Content-Type: application/json
-
-{
-    "latitude":"36.815099",
-    "longitude":"7.716793"
-}
-
 ###register route
 POST  http://localhost:3000/auth/register
 Content-Type: application/json
@@ -46,12 +17,33 @@ Content-Type: application/json
     "password":"12345678"
 }
 
-###refresh-token route
-POST http://localhost:3000/auth/refresh-token
+
+###verify-credentials route
+POST  http://localhost:3000/auth/validate-credentials
 Content-Type: application/json
 
 {
-    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE3Mjg2ODk5MzUsImV4cCI6MTc2MDI0NzUzNSwiYXVkIjoiNjcwOTYwM2RiYTQwN2ZkMWVhMjdiZTFlIiwiaXNzIjoiaWRrLmNvbSJ9.bLctubDocxe1WzNiafZr5dZqWhubiVoSiTYWiH0z6Ak"
+    "email":"arselene.test10010@gmail.com",
+    "password":"12345678"
+}
+
+###verify-locations route
+POST  http://localhost:3000/auth/validate-location
+Content-Type: application/json
+
+{
+    "latitude":"36.815099",
+    "longitude":"7.716793"
+}
+
+###verify-pins route
+POST  http://localhost:3000/auth/validate-pins
+Content-Type: application/json
+
+{
+    "userId":"674f1244d7b2d7888d49ff78",
+    "pin1":"9222",
+    "pin2":"1179"
 }
 
 ###logout route
@@ -67,7 +59,7 @@ POST http://localhost:3000/auth/check-refresh-token
 Content-Type: application/json
 
 {
-    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzQzYWZiYmI0MDQ0NjU4OGE4MTA2M2YiLCJpYXQiOjE3MzI2NTc1NjcsImV4cCI6MTczMzI2MjM2N30.MAjkUOv799co5TLSQ0Bah8UqQ4CSPajvcUyLS7GQzxY"
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzRmMTI0NGQ3YjJkNzg4OGQ0OWZmNzgiLCJpYXQiOjE3MzMyMzUzMzYsImV4cCI6MTczMzg0MDEzNn0.uIptsBCSY7Tg1LYpxVhte2lW6SgbpXQI1x7IYBmjsBs"
 }
 
 ###regenerate-refresh-token
@@ -75,9 +67,9 @@ POST http://localhost:3000/auth/refresh-tokens
 Content-Type: application/json
 
 {
-    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzQzYWZiYmI0MDQ0NjU4OGE4MTA2M2YiLCJpYXQiOjE3MzI2NTc1NjcsImV4cCI6MTczMzI2MjM2N30.MAjkUOv799co5TLSQ0Bah8UqQ4CSPajvcUyLS7GQzxY"
+    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzQzYWZiYmI0MDQ0NjU4OGE4MTA2M2YiLCJpYXQiOjE3MzMyMzI3NDUsImV4cCI6MTczMzgzNzU0NX0.zdMzyOI4rEgZPH3GriHp7OuFrZIOnphfHDBi4wYufVU"
 }
 
 ###fetch-user-data
 GET http://localhost:3000/user/fetch
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzQzYWZiYmI0MDQ0NjU4OGE4MTA2M2YiLCJpYXQiOjE3MzI2NjExMDIsImV4cCI6MTczMjY2MTE2Mn0.kBOHYN1ONe9r6KRJLK3VBm_TIGRq_8wRADyd2DJSy2M
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzRmMTI0NGQ3YjJkNzg4OGQ0OWZmNzgiLCJpYXQiOjE3MzMyMzUzMzYsImV4cCI6MTczMzIzODkzNn0.xDI5OK2ZvEEWZT1tSmX_6wGSczbizgbJONaGHok7Gpg
