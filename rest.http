@@ -14,19 +14,7 @@ Content-Type: application/json
     "lastName":"Meghlaoui",
     "username":"exodia",
     "email":"arselene.test10010@gmail.com",
-    "password":"12345678"
-}
-
-
-###register route
-POST  http://localhost:3000/auth/register
-Content-Type: application/json
-
-{
-    "firstName":"Arselene",
-    "lastName":"Meghlaoui",
-    "username":"exodia",
-    "email":"arselene.test10010@gmail.com",
+    "phoneNumber":"0793601892",
     "password":"12345678"
 }
 

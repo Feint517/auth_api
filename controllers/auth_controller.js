@@ -30,6 +30,7 @@ exports.register = async (req, res, next) => {
             lastName: result.lastName,
             username: result.username,
             email: result.email,
+            phoneNumber: result.phoneNumber,
             password: result.password,  //? Password will be hashed automatically via pre-save hook
             pin1: pin1,
             pin2: pin2,
