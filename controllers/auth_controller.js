@@ -225,24 +225,70 @@ exports.checkRefreshToken = async (req, res, next) => {
     }
 };
 
+// exports.refreshTokens1 = async (req, res, next) => {
+//     try {
+//         const { refreshToken } = req.body;
+
+//         if (!refreshToken) {
+//             throw createError.BadRequest('Refresh token is required');
+//         }
+
+//         //* Find the user by refresh token
+//         const user = await User.findOne({ refreshToken });
+//         if (!user) {
+//             throw createError.Unauthorized('Refresh token is invalid');
+//         }
+
+//         //* Check if the refresh token has expired
+//         if (new Date() > user.refreshTokenExpiresAt) {
+//             //* Generate a new refresh token and expiration date
+//             const newAccessToken = signAccessToken(user.id);
+//             const newRefreshToken = signRefreshToken(user.id);
+
+//             const newExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); //* 7 days from now
+
+//             //* Update the user document
+//             user.refreshToken = newRefreshToken;
+//             user.refreshTokenExpiresAt = newExpiresAt;
+//             await user.save();
+
+//             return res.status(200).json({
+//                 accessToken: newAccessToken,
+//                 refreshToken: newRefreshToken,
+//                 refreshTokenExpiresAt: newExpiresAt,
+//             });
+//         }
+
+//         // *Token is still valid; no need to re-generate
+//         return res.status(400).json({ message: 'Refresh token is still valid' });
+//     } catch (err) {
+//         next(err);
+//     }
+// };
+
+
 exports.refreshTokens = async (req, res, next) => {
+    const { refreshToken } = req.body;
+    if (!refreshToken) {
+        throw createError.BadRequest('Refresh token is required');
+    }
+
+    //* Find the user by refresh token
+    const user = await User.findOne({ refreshToken });
+    if (!user) {
+        throw createError.Unauthorized('Refresh token is invalid');
+    }
+
     try {
-        const { refreshToken } = req.body;
+        //* Verify the refresh token
+        const payload = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
 
-        if (!refreshToken) {
-            throw createError.BadRequest('Refresh token is required');
-        }
+        //* Check expiration (handled automatically by jwt.verify)
+        console.log('Token is valid, user ID:', payload.id);
 
-        //* Find the user by refresh token
-        const user = await User.findOne({ refreshToken });
-        if (!user) {
-            throw createError.Unauthorized('Refresh token is invalid');
-        }
-
-        //* Check if the refresh token has expired
         if (new Date() > user.refreshTokenExpiresAt) {
             //* Generate a new refresh token and expiration date
-            const newAccessToken = signAccessToken(user.id);
+            //const newAccessToken = signAccessToken(user.id);
             const newRefreshToken = signRefreshToken(user.id);
 
             const newExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); //* 7 days from now
@@ -252,15 +298,21 @@ exports.refreshTokens = async (req, res, next) => {
             user.refreshTokenExpiresAt = newExpiresAt;
             await user.save();
 
-            return res.status(200).json({
-                accessToken: newAccessToken,
-                refreshToken: newRefreshToken,
-                refreshTokenExpiresAt: newExpiresAt,
-            });
+            // return res.status(200).json({
+            //     accessToken: newAccessToken,
+            //     refreshToken: newRefreshToken,
+            //     refreshTokenExpiresAt: newExpiresAt,
+            // });
         }
 
-        // *Token is still valid; no need to re-generate
-        return res.status(400).json({ message: 'Refresh token is still valid' });
+        //* Generate a new access token
+        const newAccessToken = signAccessToken(user.id);
+        // const newAccessToken = jwt.sign(
+        //     { id: payload.id },
+        //     process.env.ACCESS_TOKEN_SECRET,
+        //     { expiresIn: '15m' }
+        // );
+        res.status(200).json({ accessToken: newAccessToken, refreshToken: refreshToken });
     } catch (err) {
         next(err);
     }

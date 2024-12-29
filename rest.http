@@ -41,9 +41,9 @@ POST  http://localhost:3000/auth/validate-pins
 Content-Type: application/json
 
 {
-    "userId":"674f1244d7b2d7888d49ff78",
-    "pin1":"9222",
-    "pin2":"1179"
+    "userId":"67714db6c7dfa2fe75c955d5",
+    "pin1":"9237",
+    "pin2":"5359"
 }
 
 
@@ -61,19 +61,19 @@ POST http://localhost:3000/auth/check-refresh-token
 Content-Type: application/json
 
 {
-    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzRmMTI0NGQ3YjJkNzg4OGQ0OWZmNzgiLCJpYXQiOjE3MzMyMzUzMzYsImV4cCI6MTczMzg0MDEzNn0.uIptsBCSY7Tg1LYpxVhte2lW6SgbpXQI1x7IYBmjsBs"
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzcxNGRiNmM3ZGZhMmZlNzVjOTU1ZDUiLCJpYXQiOjE3MzU0OTI0OTYsImV4cCI6MTczNjA5NzI5Nn0.j2YhSfdIIXL_NEbx4iUcGpi5hYerezMj1mSW-_pJf2A"
 }
 
 
-###regenerate-refresh-token
+###refresh-tokens
 POST http://localhost:3000/auth/refresh-tokens
 Content-Type: application/json
 
 {
-    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzQzYWZiYmI0MDQ0NjU4OGE4MTA2M2YiLCJpYXQiOjE3MzMyMzI3NDUsImV4cCI6MTczMzgzNzU0NX0.zdMzyOI4rEgZPH3GriHp7OuFrZIOnphfHDBi4wYufVU"
+    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzcxNGRiNmM3ZGZhMmZlNzVjOTU1ZDUiLCJpYXQiOjE3MzU0OTQxODYsImV4cCI6MTczNjA5ODk4Nn0.rBEhFwnmyQlHJgOTdDitZTEuCOGtuv44vEgToHqxu9w"
 }
 
 
 ###fetch-user-data
-GET http://localhost:3000/user/fetch
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzRmMTI0NGQ3YjJkNzg4OGQ0OWZmNzgiLCJpYXQiOjE3MzMyMzUzMzYsImV4cCI6MTczMzIzODkzNn0.xDI5OK2ZvEEWZT1tSmX_6wGSczbizgbJONaGHok7Gpg
+GET http://localhost:3000/user/fetch/:id
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzcxNGRiNmM3ZGZhMmZlNzVjOTU1ZDUiLCJpYXQiOjE3MzU0Nzg3MTAsImV4cCI6MTczNTQ4MjMxMH0.X7JOM3d_aykhsnrYz7QhXDyrjql8T3xOLYZwpTdFiTM
