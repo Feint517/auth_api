@@ -9,6 +9,6 @@ const authSchema = Joi.object({
     password: Joi.string().min(6).required(),
     pin1: Joi.string().length(4).pattern(/^[0-9]+$/),
     pin2: Joi.string().length(4).pattern(/^[0-9]+$/),
-});
+}).unknown();   //? Allow additional fields
 
 module.exports = { authSchema };

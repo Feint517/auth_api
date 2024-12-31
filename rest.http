@@ -18,6 +18,23 @@ Content-Type: application/json
     "password":"12345678"
 }
 
+
+###register route test2
+POST  http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+    "firstName":"Arselene",
+    "lastName":"Meghlaoui",
+    "username":"exodia",
+    "email":"arselene.test1001@gmail.com",
+    "phoneNumber":"0793601892",
+    "password":"12345678",
+    "role": "Team Leader",
+    "teams": ["6773ffbfae2d066806da0b43"],
+    "projects": ["6773ffe2ae2d066806da0b46"]
+}
+
 ###verify-credentials route
 POST  http://localhost:3000/auth/validate-credentials
 Content-Type: application/json
@@ -77,3 +94,37 @@ Content-Type: application/json
 ###fetch-user-data
 GET http://localhost:3000/user/fetch/:id
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzcxNGRiNmM3ZGZhMmZlNzVjOTU1ZDUiLCJpYXQiOjE3MzU0Nzg3MTAsImV4cCI6MTczNTQ4MjMxMH0.X7JOM3d_aykhsnrYz7QhXDyrjql8T3xOLYZwpTdFiTM
+
+
+###add team
+POST http://localhost:3000/teams/create
+Content-Type: application/json
+
+{
+    "name": "Research Team",
+    "description": "This team is focused on scientific research.",
+    "members": ["60d5e9b93c43b14c248e1b34", "60d5e9b93c43b14c248e1b35"]
+}
+
+
+###add project
+POST http://localhost:3000/projects/create
+Content-Type: application/json
+
+{
+    "projectCode": "P123",
+    "name": "AI Research",
+    "team": "6773ffbfae2d066806da0b43",
+    "budget": 500000,
+    "timeline": "2024-12-31",
+    "startDate": "2024-01-01",
+    "advancementRate": 50
+}
+
+
+###fetch all available teams
+GET http://localhost:3000/teams/fetch
+
+
+### fetch all available projects
+GET http://localhost:3000/projects/fetch
