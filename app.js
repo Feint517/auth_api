@@ -1,7 +1,6 @@
 const express = require('express');
 const authRoutes = require('./routes/auth_routes');
 const userRoutes = require('./routes/user_routes');
-const researcherRoutes = require('./routes/researcher_routes');
 const teamRoutes = require('./routes/teams_routes');
 const projectRoutes = require('./routes/projects_routes');
 const pingRoute = require('./routes/server_routes');
