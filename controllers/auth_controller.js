@@ -10,7 +10,7 @@ const ObjectId = mongoose.Types.ObjectId;
 
 //* Function to generate a random 4-digit PIN
 const generateRandomPin = () => {
-    return Math.floor(1000 + Math.random() * 9000).toString();  // Generates a 4-digit string
+    return Math.floor(1000 + Math.random() * 9000).toString();  //? Generates a 4-digit string
 };
 
 exports.register = async (req, res, next) => {
@@ -19,7 +19,7 @@ exports.register = async (req, res, next) => {
         console.log('Request body:', req.body);
         //* Validate user input
         const result = await authSchema.validateAsync(req.body);
-        const { role, teams, projects } = req.body;
+        const { activity, teams, projects } = req.body;
 
         console.log('Validation result:', result);
 
@@ -52,18 +52,11 @@ exports.register = async (req, res, next) => {
             throw createError.BadRequest('One or more team IDs are invalid');
         }
 
-        if (projects && !projects.every(isValidObjectId)) {
-            throw createError.BadRequest('One or more project IDs are invalid');
-        }
-
         //* Step 3: Create the researcher record linked to the user
         const newResearcher = new Researcher({
             userId: savedUser._id,
-            role: role,
-            //teams: teams,
-            //projects: projects,
+            activity: activity,
             teams: teams ? teams.map((team) => new ObjectId(team)) : [], //? Convert strings to ObjectId
-            projects: projects ? projects.map((project) => new ObjectId(project)) : [], //? Convert strings to ObjectId
         });
 
         await newResearcher.save();
@@ -72,16 +65,11 @@ exports.register = async (req, res, next) => {
         const accessToken = signAccessToken(newUser.id);
         const refreshToken = signRefreshToken(newUser.id);
 
+        const userId = newUser.id;
+
         //* Calculate expiration dates
         const accessTokenExpiresAt = new Date(jwt.decode(accessToken).exp * 1000);
         const refreshTokenExpiresAt = new Date(jwt.decode(refreshToken).exp * 1000);
-
-        //* Save tokens and expiration times to the user record
-        // newUser.accessToken = accessToken;
-        // newUser.refreshToken = refreshToken;
-        // newUser.accessTokenExpiresAt = accessTokenExpiresAt;
-        // newUser.refreshTokenExpiresAt = refre shTokenExpiresAt;
-        //await newUser.save();
 
         savedUser.accessToken = accessToken;
         savedUser.refreshToken = refreshToken;
@@ -92,7 +80,7 @@ exports.register = async (req, res, next) => {
 
 
         //* Send tokens back to the client
-        res.status(201).json({ accessToken, refreshToken, pin1, pin2 });
+        res.status(201).json({ userId, accessToken, refreshToken, pin1, pin2 });
     } catch (error) {
         if (error.isJoi === true) return next(createError.BadRequest('Invalid email or password'));
         next(error);
@@ -112,20 +100,6 @@ exports.validateCredentials = async (req, res, next) => {
         //* Validate password
         const isMatch = await user.isValidPassword(result.password);
         if (!isMatch) throw createError.Unauthorized('Username/password not valid');
-
-        // //* Generate tokens
-        // const accessToken = signAccessToken(user.id);
-        // const refreshToken = signRefreshToken(user.id);
-
-        // const accessTokenExpiresAt = new Date(jwt.decode(accessToken).exp * 1000);
-        // const refreshTokenExpiresAt = new Date(jwt.decode(refreshToken).exp * 1000);
-
-        // //* Save tokens to the user document
-        // user.accessToken = accessToken;
-        // user.refreshToken = refreshToken;
-        // user.accessTokenExpiresAt = accessTokenExpiresAt;
-        // user.refreshTokenExpiresAt = refreshTokenExpiresAt;
-        // await user.save();
 
         res.json({ message: 'User Found, verify your pins', userId: user.id });
     } catch (error) {
@@ -264,48 +238,6 @@ exports.checkRefreshToken = async (req, res, next) => {
     }
 };
 
-// exports.refreshTokens1 = async (req, res, next) => {
-//     try {
-//         const { refreshToken } = req.body;
-
-//         if (!refreshToken) {
-//             throw createError.BadRequest('Refresh token is required');
-//         }
-
-//         //* Find the user by refresh token
-//         const user = await User.findOne({ refreshToken });
-//         if (!user) {
-//             throw createError.Unauthorized('Refresh token is invalid');
-//         }
-
-//         //* Check if the refresh token has expired
-//         if (new Date() > user.refreshTokenExpiresAt) {
-//             //* Generate a new refresh token and expiration date
-//             const newAccessToken = signAccessToken(user.id);
-//             const newRefreshToken = signRefreshToken(user.id);
-
-//             const newExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); //* 7 days from now
-
-//             //* Update the user document
-//             user.refreshToken = newRefreshToken;
-//             user.refreshTokenExpiresAt = newExpiresAt;
-//             await user.save();
-
-//             return res.status(200).json({
-//                 accessToken: newAccessToken,
-//                 refreshToken: newRefreshToken,
-//                 refreshTokenExpiresAt: newExpiresAt,
-//             });
-//         }
-
-//         // *Token is still valid; no need to re-generate
-//         return res.status(400).json({ message: 'Refresh token is still valid' });
-//     } catch (err) {
-//         next(err);
-//     }
-// };
-
-
 exports.refreshTokens = async (req, res, next) => {
     const { refreshToken } = req.body;
     if (!refreshToken) {
@@ -337,20 +269,11 @@ exports.refreshTokens = async (req, res, next) => {
             user.refreshTokenExpiresAt = newExpiresAt;
             await user.save();
 
-            // return res.status(200).json({
-            //     accessToken: newAccessToken,
-            //     refreshToken: newRefreshToken,
-            //     refreshTokenExpiresAt: newExpiresAt,
-            // });
         }
 
         //* Generate a new access token
         const newAccessToken = signAccessToken(user.id);
-        // const newAccessToken = jwt.sign(
-        //     { id: payload.id },
-        //     process.env.ACCESS_TOKEN_SECRET,
-        //     { expiresIn: '15m' }
-        // );
+
         res.status(200).json({ accessToken: newAccessToken, refreshToken: refreshToken });
     } catch (err) {
         next(err);
