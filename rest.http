@@ -1,11 +1,10 @@
 GET http://localhost:3000
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzQzYWZiYmI0MDQ0NjU4OGE4MTA2M2YiLCJpYXQiOjE3MzI2NTUzMDIsImV4cCI6MTczMjY1NTM2Mn0.-uKoaTjY-NvPR6bT9SpmKXRA1bf_OHIm7xchxz3naZY
 
-###ping route
+###-----------------------------------------ping route-----------------------------------------
 GET http://localhost:3000/api/ping
 
-
-###register route
+###-----------------------------------------register route test-----------------------------------------
 POST  http://localhost:3000/auth/register
 Content-Type: application/json
 
@@ -13,12 +12,14 @@ Content-Type: application/json
     "firstName":"Arselene",
     "lastName":"Meghlaoui",
     "username":"exodia",
-    "email":"arselene.test10010@gmail.com",
-    "password":"12345678"
+    "email":"arselene.test10001@gmail.com",
+    "phoneNumber":"0793601892",
+    "password":"12345678",
+    "activity": "AI Researcher",
+    "teams": []
 }
 
-
-###verify-credentials route
+###-----------------------------------------verify-credentials route-----------------------------------------
 POST  http://localhost:3000/auth/validate-credentials
 Content-Type: application/json
 
@@ -27,7 +28,7 @@ Content-Type: application/json
     "password":"12345678"
 }
 
-###verify-locations route
+###-----------------------------------------verify-locations route-----------------------------------------
 POST  http://localhost:3000/auth/validate-location
 Content-Type: application/json
 
@@ -36,17 +37,17 @@ Content-Type: application/json
     "longitude":"7.716793"
 }
 
-###verify-pins route
+###-----------------------------------------verify-pins route-----------------------------------------
 POST  http://localhost:3000/auth/validate-pins
 Content-Type: application/json
 
 {
-    "userId":"674f1244d7b2d7888d49ff78",
-    "pin1":"9222",
-    "pin2":"1179"
+    "userId":"67714db6c7dfa2fe75c955d5",
+    "pin1":"9237",
+    "pin2":"5359"
 }
 
-###logout route
+###-----------------------------------------logout route-----------------------------------------
 POST  http://localhost:3000/auth/logout
 Content-Type: application/json
 
@@ -54,22 +55,86 @@ Content-Type: application/json
     "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzQzYWZiYmI0MDQ0NjU4OGE4MTA2M2YiLCJpYXQiOjE3MzI1NzQzMTQsImV4cCI6MTczMzE3OTExNH0.3W1mD95EYpW4WrFT3jliYmKxBU9Ud8pZCKB71Q9gtFM"
 }
 
-###check-refresh-token route
+###-----------------------------------------check-refresh-token route-----------------------------------------
 POST http://localhost:3000/auth/check-refresh-token
 Content-Type: application/json
 
 {
-    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzRmMTI0NGQ3YjJkNzg4OGQ0OWZmNzgiLCJpYXQiOjE3MzMyMzUzMzYsImV4cCI6MTczMzg0MDEzNn0.uIptsBCSY7Tg1LYpxVhte2lW6SgbpXQI1x7IYBmjsBs"
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzcxNGRiNmM3ZGZhMmZlNzVjOTU1ZDUiLCJpYXQiOjE3MzU0OTI0OTYsImV4cCI6MTczNjA5NzI5Nn0.j2YhSfdIIXL_NEbx4iUcGpi5hYerezMj1mSW-_pJf2A"
 }
 
-###regenerate-refresh-token
+###-----------------------------------------refresh-tokens-----------------------------------------
 POST http://localhost:3000/auth/refresh-tokens
 Content-Type: application/json
 
 {
-    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzQzYWZiYmI0MDQ0NjU4OGE4MTA2M2YiLCJpYXQiOjE3MzMyMzI3NDUsImV4cCI6MTczMzgzNzU0NX0.zdMzyOI4rEgZPH3GriHp7OuFrZIOnphfHDBi4wYufVU"
+    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzcxNGRiNmM3ZGZhMmZlNzVjOTU1ZDUiLCJpYXQiOjE3MzU0OTQxODYsImV4cCI6MTczNjA5ODk4Nn0.rBEhFwnmyQlHJgOTdDitZTEuCOGtuv44vEgToHqxu9w"
 }
 
-###fetch-user-data
-GET http://localhost:3000/user/fetch
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzRmMTI0NGQ3YjJkNzg4OGQ0OWZmNzgiLCJpYXQiOjE3MzMyMzUzMzYsImV4cCI6MTczMzIzODkzNn0.xDI5OK2ZvEEWZT1tSmX_6wGSczbizgbJONaGHok7Gpg
+###-----------------------------------------fetch-user-data-----------------------------------------
+GET http://localhost:3000/user/fetch/:id
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzcxNGRiNmM3ZGZhMmZlNzVjOTU1ZDUiLCJpYXQiOjE3MzU0Nzg3MTAsImV4cCI6MTczNTQ4MjMxMH0.X7JOM3d_aykhsnrYz7QhXDyrjql8T3xOLYZwpTdFiTM
+
+###-----------------------------------------add team-----------------------------------------
+POST http://localhost:3000/teams/create
+Content-Type: application/json
+
+{
+    "name": "Team 3",
+    "description": "This team focuses on co-operations",
+    "members": []
+}
+
+###-----------------------------------------fetch all available teams-----------------------------------------
+GET http://localhost:3000/teams/fetch
+
+###-----------------------------------------get team members-------------------------------------------------------
+POST http://localhost:3000/teams/members
+Content-Type: application/json
+
+{
+    "teamId": "67754810f0a3dd9c97e4bc87"
+}
+
+###-----------------------------------------add team member-----------------------------------------
+POST http://localhost:3000/teams/add-member
+Content-Type: application/json
+
+{
+    "teamIds": ["67767eda9abff481da286fe2", "67767f119abff481da286fe4"],
+    "userId": "677552226cb89f86550438fe"
+}
+
+###-----------------------------------------add project-----------------------------------------
+POST http://localhost:3000/projects/create
+Content-Type: application/json
+
+{
+    "projectCode": "CPR4T",
+    "name": "AI for e-learning",
+    "team": "6776d04c782c793ccfc97bfc",
+    "budget": 7000,
+    "timeline": "2025-09-08",
+    "startDate": "2023-09-08",
+    "advancementRate": 75
+}
+
+###-----------------------------------------fetch all available projects-----------------------------------------
+GET http://localhost:3000/projects/fetch
+
+###-----------------------------------------fetch projects based on userID-----------------------------------------
+POST http://localhost:3000/projects/user
+Content-Type: application/json
+
+{
+    "userId": "677552226cb89f86550438fe"
+}
+
+###-----------------------------------------update advancement rate-----------------------------------------
+PUT  http://localhost:3000/projects/update-advancement-rate
+Content-Type: application/json
+
+{
+    "projectId": "6775600175b2461329c42ca3",
+    "advancementRate": 43
+}

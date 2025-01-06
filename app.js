@@ -1,6 +1,8 @@
 const express = require('express');
 const authRoutes = require('./routes/auth_routes');
 const userRoutes = require('./routes/user_routes');
+const teamRoutes = require('./routes/teams_routes');
+const projectRoutes = require('./routes/projects_routes');
 const pingRoute = require('./routes/server_routes');
 const createError = require('http-errors');
 require('dotenv').config();
@@ -17,7 +19,9 @@ app.get('/', verifyAccessToken, async (req, res, next) => {
 })
 
 //* Routes
-app.use('/api', pingRoute); 
+app.use('/api', pingRoute);
+app.use('/teams', teamRoutes);
+app.use('/projects', projectRoutes);
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 

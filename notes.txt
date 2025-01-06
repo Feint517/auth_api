@@ -1,0 +1,25 @@
+{
+  "name": "Research Team",
+  "description": "This team is focused on scientific research.",
+  "members": [
+    "60d5e9b93c43b14c248e1b34",
+    "60d5e9b93c43b14c248e1b35"
+  ],
+  "_id": "6773ffbfae2d066806da0b43",
+  "createdDate": "2024-12-31T14:29:19.382Z",
+  "__v": 0
+}
+
+
+
+{
+  "projectCode": "P123",
+  "name": "AI Research",
+  "team": "6773ffbfae2d066806da0b43",
+  "budget": 500000,
+  "timeline": "2024-12-31",
+  "startDate": "2024-01-01T00:00:00.000Z",
+  "advancementRate": 50,
+  "_id": "6773ffe2ae2d066806da0b46",
+  "__v": 0
+}

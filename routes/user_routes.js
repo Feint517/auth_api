@@ -4,6 +4,6 @@ const userController = require('../controllers/user_controller');
 const { verifyAccessToken } = require('../middlewares/auth');
 
 
-router.get('/fetch', verifyAccessToken, userController.fetchUserData);
+router.get('/fetch/:id', verifyAccessToken, userController.fetchUserData);
 
 module.exports = router;
