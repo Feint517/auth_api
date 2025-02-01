@@ -12,8 +12,8 @@ Content-Type: application/json
     "firstName":"Arselene",
     "lastName":"Meghlaoui",
     "username":"exodia",
-    "email":"arselene.test10001@gmail.com",
-    "phoneNumber":"0793601892",
+    "email":"arselene.test100010@gmail.com",
+    "phoneNumber":"+213793601892",
     "password":"12345678",
     "activity": "AI Researcher",
     "teams": []
