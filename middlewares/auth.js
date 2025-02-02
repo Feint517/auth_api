@@ -14,7 +14,7 @@ const verifyAccessToken = async (req, res, next) => {
 
         //* Verify the token
         const payload = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-        console.log('Decoded Payload:', payload); //? Debugging
+        console.log('Decoded Payload:', payload);
 
         //* Find the user associated with the token
         const user = await User.findById(payload.userId).select('-password');
@@ -33,7 +33,10 @@ const verifyAccessToken = async (req, res, next) => {
         }
 
         //* Attach the userId to the request for access to user info in the route handler
-        req.userId = user.id;
+        //req.userId = user.id;
+        req.userId = payload.userId;
+
+        console.log("userId attached to req:", user.id);
         next();  //? Token is valid, proceed to the next middleware or route handler
     } catch (err) {
         //* Handle invalid token errors

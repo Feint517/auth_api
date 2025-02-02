@@ -12,7 +12,7 @@ Content-Type: application/json
     "firstName":"Arselene",
     "lastName":"Meghlaoui",
     "username":"exodia",
-    "email":"arselene.test100010@gmail.com",
+    "email":"arselene.main@gmail.com",
     "phoneNumber":"+213793601892",
     "password":"12345678",
     "activity": "AI Researcher",
@@ -24,7 +24,7 @@ POST  http://localhost:3000/auth/validate-credentials
 Content-Type: application/json
 
 {
-    "email":"arselene.test10010@gmail.com",
+    "email":"arselene.main@gmail.com",
     "password":"12345678"
 }
 
@@ -42,9 +42,9 @@ POST  http://localhost:3000/auth/validate-pins
 Content-Type: application/json
 
 {
-    "userId":"67714db6c7dfa2fe75c955d5",
-    "pin1":"9237",
-    "pin2":"5359"
+    "userId":"679fa3f0e1ca52e4131af5a8",
+    "pin1":"7993",
+    "pin2":"6590"
 }
 
 ###-----------------------------------------logout route-----------------------------------------
@@ -137,4 +137,15 @@ Content-Type: application/json
 {
     "projectId": "6775600175b2461329c42ca3",
     "advancementRate": 43
+}
+
+
+###-------------------------------------change password-------------------------------------
+PUT  http://localhost:3000/auth/change-password
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzlmYTNmMGUxY2E1MmU0MTMxYWY1YTgiLCJpYXQiOjE3Mzg1MTc0OTksImV4cCI6MTczODUyMTA5OX0.30zWugddXVmkfY-4zbPynz3y7YbfhwDNmRFlDGNhK08
+Content-Type: application/json
+
+{
+    "currentPassword": "87654321",
+    "newPassword": "12345678"
 }

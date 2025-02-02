@@ -7,6 +7,7 @@ const pingRoute = require('./routes/server_routes');
 const createError = require('http-errors');
 require('dotenv').config();
 require('./utils/init_mongodb');
+require('./cron/changeSecrets');
 const { verifyAccessToken } = require('./middlewares/auth');
 const { cleanupExpiredTokens } = require('./cron/cleanupTokens');
 
@@ -36,6 +37,6 @@ app.use((err, req, res, next) => {
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
 
 cleanupExpiredTokens();

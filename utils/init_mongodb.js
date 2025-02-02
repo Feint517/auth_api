@@ -5,11 +5,11 @@ mongoose.connect(process.env.MONGODB_URI_ATLAS, { dbName: process.env.DB_NAME })
 }).catch((err) => console.log(err.message));
 
 mongoose.connection.on('connected', () => {
-    console.log('mongoose connected to db');
+    console.log('✅ Connected to MongoDB');
 })
 
 mongoose.connection.on('error', (err) => {
-    console.log(err.message);
+    console.log('❌ MongoDB connection error:', err.message);
 })
 
 mongoose.connection.on('disconnected', () => {

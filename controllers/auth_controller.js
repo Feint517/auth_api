@@ -2,12 +2,12 @@ const User = require('../models/user_model');
 const Researcher = require('../models/researcher_model');
 const createError = require('http-errors');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 const { signAccessToken, signRefreshToken } = require('../utils/jwtUtils');
 const { authSchema } = require('../validation/auth_validation');
 const haversine = require('haversine-distance'); //? to calculate the distance between UserLocation and AllowedArea
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
-const admin = require('../firebase');
 //const twilio = require('twilio');
 
 //* Load environment variables
@@ -71,12 +71,12 @@ exports.register = async (req, res, next) => {
 
         //* Step 4: Send SMS with PINs
         const messageBody = `Welcome to the app! Your login PINs are:\nPIN 1: ${pin1}\nPIN 2: ${pin2}\nKeep them secure and do not share with anyone.`;
-
-        await client.messages.create({
-            body: messageBody,
-            from: process.env.TWILIO_PHONE_NUMBER,
-            to: result.phoneNumber,
-        }).then(message => console.log(message.sid));
+        console.log(messageBody);
+        // await client.messages.create({
+        //     body: messageBody,
+        //     from: process.env.TWILIO_PHONE_NUMBER,
+        //     to: result.phoneNumber,
+        // }).then(message => console.log(message.sid));
 
         //* Automatically log the user in after registration by generating tokens
         const accessToken = signAccessToken(newUser.id);
@@ -294,5 +294,36 @@ exports.refreshTokens = async (req, res, next) => {
         res.status(200).json({ accessToken: newAccessToken, refreshToken: refreshToken });
     } catch (err) {
         next(err);
+    }
+};
+
+exports.changePassword = async (req, res, next) => {
+    try {
+        const { currentPassword, newPassword } = req.body;
+        const userId = req.userId; //? Extract user ID from the authentication middleware
+
+        //* Validate inputs
+        if (!currentPassword || !newPassword) {
+            throw createError.BadRequest('Current and new passwords are required.');
+        }
+
+        //* Fetch user from the database
+        const user = await User.findById(userId);
+        if (!user) throw createError.NotFound('User not found');
+
+        //* Verify the current password
+        const isMatch = await bcrypt.compare(currentPassword, user.password);
+        if (!isMatch) throw createError.Unauthorized('Incorrect current password');
+
+        //* Hash the new password
+        const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+
+        //* Update password in the database
+        user.password = hashedNewPassword;
+        await user.save();
+
+        res.status(200).json({ success: true, message: 'Password changed successfully' });
+    } catch (error) {
+        next(error);
     }
 };
