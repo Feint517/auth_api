@@ -78,6 +78,8 @@ exports.getTeamMembers = async (req, res) => {
 exports.addMemberToTeams = async (req, res) => {
     try {
         const { teamIds, userId } = req.body;
+        // const { teamIds } = req.body;
+        // const userId = req.userId;
 
         //* Validate teamIds and userId
         if (!teamIds || !Array.isArray(teamIds) || teamIds.length === 0) {

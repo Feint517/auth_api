@@ -10,9 +10,9 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true },
     pin1: { type: String, required: true },
     pin2: { type: String, required: true },
-    accessToken: { type: String },
+    //accessToken: { type: String },
     refreshToken: { type: String },
-    accessTokenExpiresAt: { type: Date },
+    //accessTokenExpiresAt: { type: Date },
     refreshTokenExpiresAt: { type: Date },
 });
 

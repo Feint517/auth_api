@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const projectsController = require('../controllers/projects_controller');
+const { verifyAccessToken } = require('../middlewares/auth');
 
 
 router.post('/create', projectsController.createProject);

@@ -1,5 +1,5 @@
 GET http://localhost:3000
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzQzYWZiYmI0MDQ0NjU4OGE4MTA2M2YiLCJpYXQiOjE3MzI2NTUzMDIsImV4cCI6MTczMjY1NTM2Mn0.-uKoaTjY-NvPR6bT9SpmKXRA1bf_OHIm7xchxz3naZY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2EzZWNlYTEyOTVhZTk4MjBhYTFhZWYiLCJpYXQiOjE3Mzg3OTYyNjYsImV4cCI6MTczODc5NzE2Nn0.tBUtsi9he0WruxKeL0xovB5sh7-hC3DJRvH1Utdb3j8
 
 ###-----------------------------------------ping route-----------------------------------------
 GET http://localhost:3000/api/ping
@@ -12,7 +12,7 @@ Content-Type: application/json
     "firstName":"Arselene",
     "lastName":"Meghlaoui",
     "username":"exodia",
-    "email":"arselene.main@gmail.com",
+    "email":"arselene.main2@gmail.com",
     "phoneNumber":"+213793601892",
     "password":"12345678",
     "activity": "AI Researcher",
@@ -43,8 +43,8 @@ Content-Type: application/json
 
 {
     "userId":"679fa3f0e1ca52e4131af5a8",
-    "pin1":"7993",
-    "pin2":"6590"
+    "pin1":"8389",
+    "pin2":"9965"
 }
 
 ###-----------------------------------------logout route-----------------------------------------
@@ -68,12 +68,12 @@ POST http://localhost:3000/auth/refresh-tokens
 Content-Type: application/json
 
 {
-    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzcxNGRiNmM3ZGZhMmZlNzVjOTU1ZDUiLCJpYXQiOjE3MzU0OTQxODYsImV4cCI6MTczNjA5ODk4Nn0.rBEhFwnmyQlHJgOTdDitZTEuCOGtuv44vEgToHqxu9w"
+    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2EzZjVhYTU2MmQxYmFkOGNiNTdiODkiLCJpYXQiOjE3Mzg3OTg1MDYsImV4cCI6MTczOTQwMzMwNn0.7YHeN1d7aBppKjtCrOcWKbdZTzQA9nqxkoeh6rkyvU4"
 }
 
 ###-----------------------------------------fetch-user-data-----------------------------------------
 GET http://localhost:3000/user/fetch/:id
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzcxNGRiNmM3ZGZhMmZlNzVjOTU1ZDUiLCJpYXQiOjE3MzU0Nzg3MTAsImV4cCI6MTczNTQ4MjMxMH0.X7JOM3d_aykhsnrYz7QhXDyrjql8T3xOLYZwpTdFiTM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2EzZjVhYTU2MmQxYmFkOGNiNTdiODkiLCJpYXQiOjE3Mzg3OTkzMjAsImV4cCI6MTczODgwMDIyMH0.OSvX8C6IVqn8ZFb1AnEsT85Su4y3U_74J4wd8KtWSjc
 
 ###-----------------------------------------add team-----------------------------------------
 POST http://localhost:3000/teams/create
@@ -87,6 +87,7 @@ Content-Type: application/json
 
 ###-----------------------------------------fetch all available teams-----------------------------------------
 GET http://localhost:3000/teams/fetch
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2EzZjVhYTU2MmQxYmFkOGNiNTdiODkiLCJpYXQiOjE3Mzg3OTkzMjAsImV4cCI6MTczODgwMDIyMH0.OSvX8C6IVqn8ZFb1AnEsT85Su4y3U_74J4wd8KtWSjc
 
 ###-----------------------------------------get team members-------------------------------------------------------
 POST http://localhost:3000/teams/members
@@ -98,11 +99,11 @@ Content-Type: application/json
 
 ###-----------------------------------------add team member-----------------------------------------
 POST http://localhost:3000/teams/add-member
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzlmYTNmMGUxY2E1MmU0MTMxYWY1YTgiLCJpYXQiOjE3Mzg2MDM1OTQsImV4cCI6MTczODYwNzE5NH0.hphN2O6mXunHjUEo5BX2OOucjy_9F3SjBgDYqGc1Dy0
 Content-Type: application/json
 
 {
-    "teamIds": ["67767eda9abff481da286fe2", "67767f119abff481da286fe4"],
-    "userId": "677552226cb89f86550438fe"
+    "teamIds": ["67767eda9abff481da286fe2", "67767f119abff481da286fe4"]
 }
 
 ###-----------------------------------------add project-----------------------------------------
