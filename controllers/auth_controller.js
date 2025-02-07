@@ -14,7 +14,7 @@ const ObjectId = mongoose.Types.ObjectId;
 require('dotenv').config();
 
 //* Initialize Twilio Client
-const client = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+//const client = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
 //* Function to generate a random 4-digit PIN
 const generateRandomPin = () => {
