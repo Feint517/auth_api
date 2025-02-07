@@ -42,9 +42,9 @@ POST  http://localhost:3000/auth/validate-pins
 Content-Type: application/json
 
 {
-    "userId":"679fa3f0e1ca52e4131af5a8",
-    "pin1":"8389",
-    "pin2":"9965"
+    "userId":"67a3f5aa562d1bad8cb57b89",
+    "pin1":"9015",
+    "pin2":"9735"
 }
 
 ###-----------------------------------------logout route-----------------------------------------
@@ -52,7 +52,7 @@ POST  http://localhost:3000/auth/logout
 Content-Type: application/json
 
 {
-    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzQzYWZiYmI0MDQ0NjU4OGE4MTA2M2YiLCJpYXQiOjE3MzI1NzQzMTQsImV4cCI6MTczMzE3OTExNH0.3W1mD95EYpW4WrFT3jliYmKxBU9Ud8pZCKB71Q9gtFM"
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2EzZjVhYTU2MmQxYmFkOGNiNTdiODkiLCJpYXQiOjE3Mzg4NTU0OTgsImV4cCI6MTczOTQ2MDI5OH0.24J2eO_mbelDigi78Mx_StULkzdx375ZI6metGY9TsI"
 }
 
 ###-----------------------------------------check-refresh-token route-----------------------------------------
@@ -60,7 +60,7 @@ POST http://localhost:3000/auth/check-refresh-token
 Content-Type: application/json
 
 {
-    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzcxNGRiNmM3ZGZhMmZlNzVjOTU1ZDUiLCJpYXQiOjE3MzU0OTI0OTYsImV4cCI6MTczNjA5NzI5Nn0.j2YhSfdIIXL_NEbx4iUcGpi5hYerezMj1mSW-_pJf2A"
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2EzZjVhYTU2MmQxYmFkOGNiNTdiODkiLCJpYXQiOjE3Mzg4NTU5MjUsImV4cCI6MTczOTQ2MDcyNX0.UFa5lBvlod_86okPVjfTNDOMXH9rWLkho6xKGryqTiw"
 }
 
 ###-----------------------------------------refresh-tokens-----------------------------------------
@@ -68,12 +68,12 @@ POST http://localhost:3000/auth/refresh-tokens
 Content-Type: application/json
 
 {
-    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2EzZjVhYTU2MmQxYmFkOGNiNTdiODkiLCJpYXQiOjE3Mzg3OTg1MDYsImV4cCI6MTczOTQwMzMwNn0.7YHeN1d7aBppKjtCrOcWKbdZTzQA9nqxkoeh6rkyvU4"
+    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2EzZjVhYTU2MmQxYmFkOGNiNTdiODkiLCJpYXQiOjE3Mzg4NTgwMTYsImV4cCI6MTczOTQ2MjgxNn0.jbROOJEHKG8ysXo8P4YApLBu8_m_MLu1e4JIRTkPjro"
 }
 
 ###-----------------------------------------fetch-user-data-----------------------------------------
 GET http://localhost:3000/user/fetch/:id
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2EzZjVhYTU2MmQxYmFkOGNiNTdiODkiLCJpYXQiOjE3Mzg3OTkzMjAsImV4cCI6MTczODgwMDIyMH0.OSvX8C6IVqn8ZFb1AnEsT85Su4y3U_74J4wd8KtWSjc
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2EzZjVhYTU2MmQxYmFkOGNiNTdiODkiLCJpYXQiOjE3Mzg4NjQ3NzQsImV4cCI6MTczODg2NTY3NH0.fkNySNqGycrKjuE3hcTgxBlZn88kNLBMPqp2OSpMxLM
 
 ###-----------------------------------------add team-----------------------------------------
 POST http://localhost:3000/teams/create

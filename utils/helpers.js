@@ -10,7 +10,7 @@ const generateRandomPassword = () => {
 
 //* Generates a 4-digit random PIN
 const generateRandomPin = () => {
-    return Math.floor(1000 + Math.random() * 9000).toString(); // Generates a number between 1000-9999
+    return Math.floor(1000 + Math.random() * 9000).toString(); //? Generates a number between 1000-9999
 };
 
 module.exports = { generateRandomPassword, generateRandomPin };
