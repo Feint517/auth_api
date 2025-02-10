@@ -17,6 +17,6 @@ router.post('/validate-location', authController.validateGeoLocation);
 router.post('/logout', authController.logout);
 router.post('/check-refresh-token', authController.checkRefreshToken);
 router.post('/refresh-tokens', authController.refreshTokensFixed);
-router.put('/change-password', authController.changePassword);
+router.put('/change-password', verifyAccessToken, authController.changePassword);
 
 module.exports = router;

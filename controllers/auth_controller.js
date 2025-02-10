@@ -8,6 +8,7 @@ const { authSchema } = require('../validation/auth_validation');
 const haversine = require('haversine-distance'); //? to calculate the distance between UserLocation and AllowedArea
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
+const { sendPinEmail } = require('../services/email_service');
 //const twilio = require('twilio');
 
 //* Load environment variables
@@ -78,6 +79,9 @@ exports.register = async (req, res, next) => {
         //     to: result.phoneNumber,
         // }).then(message => console.log(message.sid));
 
+        //* or send them through email
+        //sendPinEmail(newUser.email, pin1, pin2);
+
         //* Automatically log the user in after registration by generating tokens
         const accessToken = signAccessToken(newUser.id);
         const refreshToken = signRefreshToken(newUser.id);
@@ -147,7 +151,7 @@ exports.validateGeoLocation = async (req, res, next) => {
 
         //* Check if the user is within the allowed radius
         if (distance > allowedArea.radius) {
-            throw createError.Unauthorized('Login is only allowed in specific geographic areas');
+            throw createError.Unauthorized('This operation is only allowed in specific geographic areas');
         }
 
         res.json({ message: 'Location is valid.' });
@@ -268,7 +272,7 @@ exports.refreshTokens = async (req, res, next) => {
     }
 
     try {
-        
+
         //* Verify the refresh token
         const payload = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
 
@@ -375,7 +379,7 @@ exports.refreshTokensFixed2 = async (req, res, next) => {
 
         //* ✅ Generate a new access token
         const newAccessToken = signAccessToken(user.id);
-        
+
         //* ✅ Save both tokens in the database
         user.accessToken = newAccessToken;
         user.accessTokenExpiresAt = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes from now

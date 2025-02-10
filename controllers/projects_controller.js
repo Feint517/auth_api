@@ -1,6 +1,7 @@
 const Project = require('../models/project_model');
 const Team = require('../models/team_model');
 const User = require('../models/user_model');
+const createError = require('http-errors');
 
 
 exports.createProject = async (req, res, next) => {
@@ -108,5 +109,36 @@ exports.updateAdvancementRate = async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'An error occurred while updating the advancement rate' });
+    }
+};
+
+exports.getProjectDetails = async (req, res, next) => {
+    try {
+        const { projectId } = req.body;
+        if (!projectId) throw createError.BadRequest('Project ID is required');
+
+        //* Step 1: Find the project by ID
+        const project = await Project.findById(projectId).select('-__v');
+        if (!project) throw createError.NotFound('Project not found');
+
+        //* Step 2: Find the corresponding team
+        const team = await Team.findById(project.team);
+        if (!team) throw createError.NotFound('Team not found');
+
+        //* Step 3: Fetch all users in the team
+        const teamMembers = await User.find({ _id: { $in: team.members } }).select('-password -__v -refreshToken -refreshTokenExpiresAt -pin1 -pin2');
+
+        //* Step 4: Return the complete project details
+        res.status(200).json({
+            success: true,
+            project,
+            team: {
+                id: team._id,
+                name: team.name,
+                members: teamMembers,
+            },
+        });
+    } catch (error) {
+        next(error);
     }
 };

@@ -8,5 +8,6 @@ router.post('/create', projectsController.createProject);
 router.get('/fetch', projectsController.getAllProjects);
 router.post('/user', projectsController.getProjectsByUserTeams);
 router.put('/update-advancement-rate', projectsController.updateAdvancementRate);
+router.post('/details', verifyAccessToken, projectsController.getProjectDetails);
 
 module.exports = router;

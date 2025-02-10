@@ -12,7 +12,7 @@ Content-Type: application/json
     "firstName":"Arselene",
     "lastName":"Meghlaoui",
     "username":"exodia",
-    "email":"arselene.main2@gmail.com",
+    "email":"arselene.main3@gmail.com",
     "phoneNumber":"+213793601892",
     "password":"12345678",
     "activity": "AI Researcher",
@@ -68,12 +68,12 @@ POST http://localhost:3000/auth/refresh-tokens
 Content-Type: application/json
 
 {
-    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2EzZjVhYTU2MmQxYmFkOGNiNTdiODkiLCJpYXQiOjE3Mzg4NTgwMTYsImV4cCI6MTczOTQ2MjgxNn0.jbROOJEHKG8ysXo8P4YApLBu8_m_MLu1e4JIRTkPjro"
+    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2E5MTM0OGRiZmJiYWY1ODliZjBjNjQiLCJpYXQiOjE3MzkxMzM3NjgsImV4cCI6MTczOTczODU2OH0.0dZo2MayV5mdELWXWJJ2u8qEhD7_K27ag7c2nf_0RkU"
 }
 
 ###-----------------------------------------fetch-user-data-----------------------------------------
 GET http://localhost:3000/user/fetch/:id
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2EzZjVhYTU2MmQxYmFkOGNiNTdiODkiLCJpYXQiOjE3Mzg4NjQ3NzQsImV4cCI6MTczODg2NTY3NH0.fkNySNqGycrKjuE3hcTgxBlZn88kNLBMPqp2OSpMxLM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2E1MWJmYTUzZGYwOGMyYTI5MzRkZGMiLCJpYXQiOjE3Mzg5NTUwNTYsImV4cCI6MTczODk1NTk1Nn0.fvKVwkgW1z9aPRWidukQiVaMjDyBfOiH0i2W7IpDGxY
 
 ###-----------------------------------------add team-----------------------------------------
 POST http://localhost:3000/teams/create
@@ -128,7 +128,7 @@ POST http://localhost:3000/projects/user
 Content-Type: application/json
 
 {
-    "userId": "677552226cb89f86550438fe"
+    "userId": "67a91348dbfbbaf589bf0c64"
 }
 
 ###-----------------------------------------update advancement rate-----------------------------------------
@@ -143,10 +143,20 @@ Content-Type: application/json
 
 ###-------------------------------------change password-------------------------------------
 PUT  http://localhost:3000/auth/change-password
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzlmYTNmMGUxY2E1MmU0MTMxYWY1YTgiLCJpYXQiOjE3Mzg1MTc0OTksImV4cCI6MTczODUyMTA5OX0.30zWugddXVmkfY-4zbPynz3y7YbfhwDNmRFlDGNhK08
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2E1MWJmYTUzZGYwOGMyYTI5MzRkZGMiLCJpYXQiOjE3Mzg5NTUwNTYsImV4cCI6MTczODk1NTk1Nn0.fvKVwkgW1z9aPRWidukQiVaMjDyBfOiH0i2W7IpDGxY
 Content-Type: application/json
 
 {
     "currentPassword": "87654321",
     "newPassword": "12345678"
+}
+
+
+###----------------------------------fetch project's details-----------------------------------------------
+POST   http://localhost:3000/projects/details
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2E5MTM0OGRiZmJiYWY1ODliZjBjNjQiLCJpYXQiOjE3MzkxNDE4MDEsImV4cCI6MTczOTE0MjcwMX0.ggZsrUEJpNTXohhcadkZf9-OwWqfCzzUTZyG1N5WIT0
+Content-Type: application/json
+
+{
+    "projectId": "6776eee5782c793ccfc97c10"
 }
