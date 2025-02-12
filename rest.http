@@ -154,9 +154,20 @@ Content-Type: application/json
 
 ###----------------------------------fetch project's details-----------------------------------------------
 POST   http://localhost:3000/projects/details
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2E5MTM0OGRiZmJiYWY1ODliZjBjNjQiLCJpYXQiOjE3MzkxNDE4MDEsImV4cCI6MTczOTE0MjcwMX0.ggZsrUEJpNTXohhcadkZf9-OwWqfCzzUTZyG1N5WIT0
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2E5MTM0OGRiZmJiYWY1ODliZjBjNjQiLCJpYXQiOjE3MzkzMjI2NjUsImV4cCI6MTczOTMyNjI2NX0.-rwHGtkqQ0YW8oZlUdd9nYQI-QUSHQ2nR9VjJOY5t0I
 Content-Type: application/json
 
 {
-    "projectId": "6776eee5782c793ccfc97c10"
+    "projectCode": "CPR2T"
+}
+
+
+###------------------------------add note to project------------------------
+POST   http://localhost:3000/projects/add-note
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2E5MTM0OGRiZmJiYWY1ODliZjBjNjQiLCJpYXQiOjE3MzkzMjI2NjUsImV4cCI6MTczOTMyNjI2NX0.-rwHGtkqQ0YW8oZlUdd9nYQI-QUSHQ2nR9VjJOY5t0I
+Content-Type: application/json
+
+{
+    "projectCode": "CPR2T",
+    "content": "This project needs an update on the dataset.1"
 }

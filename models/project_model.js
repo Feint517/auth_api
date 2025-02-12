@@ -8,6 +8,13 @@ const ProjectSchema = new mongoose.Schema({
     timeline: { type: String, required: true }, // Timeline of the project (could be a string or another date format)
     startDate: { type: Date, required: true },
     advancementRate: { type: Number, required: true, min: 0, max: 100 },
+    notes: [
+        {
+            user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+            content: { type: String, required: true },
+            createdAt: { type: Date, default: Date.now }
+        }
+    ]
 });
 
 module.exports = mongoose.model('Project', ProjectSchema);
