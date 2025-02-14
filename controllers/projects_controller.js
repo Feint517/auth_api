@@ -197,6 +197,32 @@ exports.addProjectNote = async (req, res, next) => {
     }
 };
 
+// exports.deleteProjectNote = async (req, res, next) => {
+//     try {
+//         const { projectCode, noteId } = req.body;
+//         const userId = req.userId;
+
+//         if (!projectCode || !noteId) throw createError.BadRequest('Project code and note ID are required');
+
+//         //* Find project
+//         const project = await Project.findOne({ projectCode });
+//         if (!project) throw createError.NotFound('Project not found');
+
+//         //* Find the note and check ownership
+//         const noteIndex = project.notes.findIndex(n => n._id.toString() === noteId);
+//         if (noteIndex === -1) throw createError.NotFound('Note not found');
+//         if (project.notes[noteIndex].user.toString() !== userId) throw createError.Forbidden('You can only delete your own notes');
+
+//         //* Remove the note
+//         project.notes.splice(noteIndex, 1);
+//         await project.save();
+
+//         res.status(200).json({ success: true, message: 'Note deleted successfully' });
+//     } catch (error) {
+//         next(error);
+//     }
+// };
+
 exports.deleteProjectNote = async (req, res, next) => {
     try {
         const { projectCode, noteId } = req.body;
@@ -211,7 +237,9 @@ exports.deleteProjectNote = async (req, res, next) => {
         //* Find the note and check ownership
         const noteIndex = project.notes.findIndex(n => n._id.toString() === noteId);
         if (noteIndex === -1) throw createError.NotFound('Note not found');
-        if (project.notes[noteIndex].user.toString() !== userId) throw createError.Forbidden('You can only delete your own notes');
+        if (project.notes[noteIndex].user.toString() !== userId) {
+            return res.status(403).json({ success: false, message: 'You can only delete your own notes' });
+        }
 
         //* Remove the note
         project.notes.splice(noteIndex, 1);

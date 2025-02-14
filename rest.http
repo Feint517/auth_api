@@ -68,7 +68,7 @@ POST http://localhost:3000/auth/refresh-tokens
 Content-Type: application/json
 
 {
-    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2E5MTM0OGRiZmJiYWY1ODliZjBjNjQiLCJpYXQiOjE3MzkxMzM3NjgsImV4cCI6MTczOTczODU2OH0.0dZo2MayV5mdELWXWJJ2u8qEhD7_K27ag7c2nf_0RkU"
+    "refreshToken":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2FlMGI5MmUyNzY0MTNiNmZlYzM0ZDYiLCJpYXQiOjE3Mzk0NjAxMzYsImV4cCI6MTc0MDA2NDkzNn0.30z4hh1VLYPfGrctg-edsQHUkGrMzdA0gHX20mCOuZA"
 }
 
 ###-----------------------------------------fetch-user-data-----------------------------------------
@@ -154,7 +154,7 @@ Content-Type: application/json
 
 ###----------------------------------fetch project's details-----------------------------------------------
 POST   http://localhost:3000/projects/details
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2E5MTM0OGRiZmJiYWY1ODliZjBjNjQiLCJpYXQiOjE3MzkzMjI2NjUsImV4cCI6MTczOTMyNjI2NX0.-rwHGtkqQ0YW8oZlUdd9nYQI-QUSHQ2nR9VjJOY5t0I
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2FlMGI5MmUyNzY0MTNiNmZlYzM0ZDYiLCJpYXQiOjE3Mzk0NjA3MzksImV4cCI6MTczOTQ2NDMzOX0.sgYr0cbXXl5EgAwaykeLZSRgZTfOKuu-R5xQ1cP2hy0
 Content-Type: application/json
 
 {
@@ -164,10 +164,20 @@ Content-Type: application/json
 
 ###------------------------------add note to project------------------------
 POST   http://localhost:3000/projects/add-note
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2E5MTM0OGRiZmJiYWY1ODliZjBjNjQiLCJpYXQiOjE3MzkzMjI2NjUsImV4cCI6MTczOTMyNjI2NX0.-rwHGtkqQ0YW8oZlUdd9nYQI-QUSHQ2nR9VjJOY5t0I
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2E5MTM0OGRiZmJiYWY1ODliZjBjNjQiLCJpYXQiOjE3Mzk0NTY5MzUsImV4cCI6MTczOTQ2MDUzNX0.09Y6kzCH0deZ6BRCG7sH5aHvB8mXpQiw8gmwjJBeXdE
 Content-Type: application/json
 
 {
     "projectCode": "CPR2T",
     "content": "This project needs an update on the dataset.1"
+}
+
+
+###-------------------------delete note-----------------------
+DELETE    http://localhost:3000/projects/delete-note
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2E5MTM0OGRiZmJiYWY1ODliZjBjNjQiLCJpYXQiOjE3Mzk0NTY5MzUsImV4cCI6MTczOTQ2MDUzNX0.09Y6kzCH0deZ6BRCG7sH5aHvB8mXpQiw8gmwjJBeXdE
+Content-Type: application/json
+
+{
+    
 }
