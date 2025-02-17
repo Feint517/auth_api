@@ -9,13 +9,13 @@ const haversine = require('haversine-distance'); //? to calculate the distance b
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 const { sendPinEmail } = require('../services/email_service');
-//const twilio = require('twilio');
+const twilio = require('twilio');
 
 //* Load environment variables
 require('dotenv').config();
 
 //* Initialize Twilio Client
-//const client = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+const client = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
 //* Function to generate a random 4-digit PIN
 const generateRandomPin = () => {
@@ -73,11 +73,11 @@ exports.register = async (req, res, next) => {
         //* Step 4: Send SMS with PINs
         const messageBody = `Welcome to the app! Your login PINs are:\nPIN 1: ${pin1}\nPIN 2: ${pin2}\nKeep them secure and do not share with anyone.`;
         console.log(messageBody);
-        // await client.messages.create({
-        //     body: messageBody,
-        //     from: process.env.TWILIO_PHONE_NUMBER,
-        //     to: result.phoneNumber,
-        // }).then(message => console.log(message.sid));
+        await client.messages.create({
+            body: messageBody,
+            from: process.env.TWILIO_PHONE_NUMBER,
+            to: result.phoneNumber,
+        }).then(message => console.log(message.sid));
 
         //* or send them through email
         //sendPinEmail(newUser.email, pin1, pin2);
