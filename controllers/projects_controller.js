@@ -114,57 +114,28 @@ exports.updateAdvancementRate = async (req, res) => {
 
 exports.getProjectDetails = async (req, res, next) => {
     try {
-        // const { projectId } = req.body;
-        // if (!projectId) throw createError.BadRequest('Project ID is required');
 
         const { projectCode } = req.body;
         if (!projectCode) throw createError.BadRequest('Project code is required');
 
         //* Step 1: Find the project by ID
-        //const project = await Project.findById(projectId).select('-__v');
         const project = await Project.findOne({ projectCode })
-            //.select('-__v')
             .populate({
                 path: 'notes.user',
                 select: 'firstName lastName email',
             })
-            //.populate('team');
             .populate({
-                path: 'team', // Ensure team is fully populated
+                path: 'team', //? Ensure team is fully populated
                 populate: { path: 'members', select: 'firstName lastName email' }
             });
 
         if (!project) throw createError.NotFound('Project not found');
         if (!project.team) throw createError.NotFound('Team not found');
 
-        //* Step 2: Find the corresponding team
-        // const team = await Team.findById(project.team);
-        // if (!team) throw createError.NotFound('Team not found');
-
-        //* Step 3: Fetch all users in the team
-        //const teamMembers = await User.find({ _id: { $in: team.members } }).select('-password -__v -refreshToken -refreshTokenExpiresAt -pin1 -pin2');
-
-        // const teamMembers = project.team.members.map(member => ({
-        //     id: member._id,
-        //     firstName: member.firstName,
-        //     lastName: member.lastName,
-        //     email: member.email
-        // }));
-
-        //* Step 4: Return the complete project details
+        //* Step 2: Return the complete project details
         res.status(200).json({
             success: true,
             project,
-            // team: {
-            //     id: project.team._id,
-            //     name: project.team.name,
-            //     members: teamMembers,
-            // },
-            // team: {
-            //     id: team._id,
-            //     name: team.name,
-            //     members: teamMembers,
-            // },
         });
     } catch (error) {
         next(error);
@@ -196,32 +167,6 @@ exports.addProjectNote = async (req, res, next) => {
         next(error);
     }
 };
-
-// exports.deleteProjectNote = async (req, res, next) => {
-//     try {
-//         const { projectCode, noteId } = req.body;
-//         const userId = req.userId;
-
-//         if (!projectCode || !noteId) throw createError.BadRequest('Project code and note ID are required');
-
-//         //* Find project
-//         const project = await Project.findOne({ projectCode });
-//         if (!project) throw createError.NotFound('Project not found');
-
-//         //* Find the note and check ownership
-//         const noteIndex = project.notes.findIndex(n => n._id.toString() === noteId);
-//         if (noteIndex === -1) throw createError.NotFound('Note not found');
-//         if (project.notes[noteIndex].user.toString() !== userId) throw createError.Forbidden('You can only delete your own notes');
-
-//         //* Remove the note
-//         project.notes.splice(noteIndex, 1);
-//         await project.save();
-
-//         res.status(200).json({ success: true, message: 'Note deleted successfully' });
-//     } catch (error) {
-//         next(error);
-//     }
-// };
 
 exports.deleteProjectNote = async (req, res, next) => {
     try {

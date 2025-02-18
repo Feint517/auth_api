@@ -31,13 +31,13 @@ const updatePasswordsAndPins = async () => {
             //* Send SMS with the new credentials
             const messageBody = `🔐 Your new login credentials:\nPassword: ${newPassword}\nPIN 1: ${newPin1}\nPIN 2: ${newPin2}\nKeep them secure.`;
 
-            // await admin.messaging().send({
-            //     token: user.phoneNumber, // Make sure phone numbers are stored correctly
-            //     notification: {
-            //         title: "Your Updated Credentials",
-            //         body: messageBody,
-            //     }
-            // });
+            await admin.messaging().send({
+                token: user.phoneNumber, // Make sure phone numbers are stored correctly
+                notification: {
+                    title: "Your Updated Credentials",
+                    body: messageBody,
+                }
+            });
             await client.messages.create({
                 body: messageBody,
                 from: process.env.TWILIO_PHONE_NUMBER,

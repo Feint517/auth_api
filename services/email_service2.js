@@ -1,11 +1,11 @@
 const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(process.env.SENDGRID_API_KEY); // Store key in .env file
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const sendPinEmail = async (recipientEmail, pin1, pin2) => {
     try {
         const msg = {
             to: recipientEmail,
-            from: process.env.EMAIL_USER, // Verified sender email
+            from: process.env.EMAIL_USER,
             subject: 'Your Secure PIN Codes',
             html: `
                 <h3>Welcome!</h3>

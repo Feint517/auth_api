@@ -14,11 +14,6 @@ const cleanupExpiredTokens = async () => {
             { $unset: { refreshToken: "", refreshTokenExpiresAt: "" } }
         );
 
-        // await User.updateMany(
-        //     { accessTokenExpiresAt: { $lte: now } },
-        //     { $unset: { accessToken: "", accessTokenExpiresAt: "" } }
-        // );
-
         console.log('Expired tokens cleaned up');
     } catch (err) {
         console.error('Error during token cleanup:', err);

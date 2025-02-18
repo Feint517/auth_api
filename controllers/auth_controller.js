@@ -92,9 +92,7 @@ exports.register = async (req, res, next) => {
         const accessTokenExpiresAt = new Date(jwt.decode(accessToken).exp * 1000);
         const refreshTokenExpiresAt = new Date(jwt.decode(refreshToken).exp * 1000);
 
-        //savedUser.accessToken = accessToken;
         savedUser.refreshToken = refreshToken;
-        //savedUser.accessTokenExpiresAt = accessTokenExpiresAt;
         savedUser.refreshTokenExpiresAt = refreshTokenExpiresAt;
 
         await savedUser.save();
@@ -181,9 +179,7 @@ exports.validatePins = async (req, res, next) => {
         const refreshTokenExpiresAt = new Date(jwt.decode(refreshToken).exp * 1000);
 
         //* Save tokens to the user document
-        //user.accessToken = accessToken;
         user.refreshToken = refreshToken;
-        //user.accessTokenExpiresAt = accessTokenExpiresAt;
         user.refreshTokenExpiresAt = refreshTokenExpiresAt;
         await user.save();
 
@@ -213,8 +209,6 @@ exports.logout = async (req, res, next) => {
         //* optionnaly clear the tokens
         user.refreshToken = null;
         user.refreshTokenExpiresAt = null;
-        //user.accessToken = null;
-        //user.accessTokenExpiresAt = null;
         user.save();
 
         res.status(200).json({ message: 'Successfully logged out.' });
@@ -259,50 +253,6 @@ exports.checkRefreshToken = async (req, res, next) => {
     }
 };
 
-exports.refreshTokens = async (req, res, next) => {
-    const { refreshToken } = req.body;
-    if (!refreshToken) {
-        throw createError.BadRequest('Refresh token is required');
-    }
-
-    //* Find the user by refresh token
-    const user = await User.findOne({ refreshToken });
-    if (!user) {
-        throw createError.Unauthorized('Refresh token is invalid');
-    }
-
-    try {
-
-        //* Verify the refresh token
-        const payload = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
-
-        //* Check expiration (handled automatically by jwt.verify)
-        console.log('Token is valid, user ID:', payload.id);
-
-        if (new Date() > user.refreshTokenExpiresAt) {
-            //* Generate a new refresh token and expiration date
-            //const newAccessToken = signAccessToken(user.id);
-            const newRefreshToken = signRefreshToken(user.id);
-
-            const newExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); //* 7 days from now
-
-            //* Update the user document
-            user.refreshToken = newRefreshToken;
-            user.refreshTokenExpiresAt = newExpiresAt;
-            await user.save();
-
-        }
-
-        //* Generate a new access token
-        const newAccessToken = signAccessToken(user.id);
-
-        res.status(200).json({ accessToken: newAccessToken, refreshToken: newRefreshToken || refreshToken });
-    } catch (err) {
-        next(err);
-    }
-};
-
-
 exports.refreshTokensFixed = async (req, res, next) => {
     try {
         const { refreshToken } = req.body;
@@ -335,55 +285,6 @@ exports.refreshTokensFixed = async (req, res, next) => {
 
         //* Generate a new access token
         const newAccessToken = signAccessToken(user.id);
-
-        res.status(200).json({
-            accessToken: newAccessToken,
-            refreshToken: newRefreshToken,
-        });
-    } catch (err) {
-        if (err.name === 'TokenExpiredError') {
-            return next(createError.Unauthorized('Refresh token expired, please log in again'));
-        }
-        next(err);
-    }
-};
-
-exports.refreshTokensFixed2 = async (req, res, next) => {
-    try {
-        const { refreshToken } = req.body;
-        if (!refreshToken) throw createError.BadRequest('Refresh token is required');
-
-        //* Find user by refresh token
-        const user = await User.findOne({ refreshToken });
-        if (!user) throw createError.Unauthorized('Invalid refresh token');
-
-        //* Check if refresh token has expired BEFORE verifying it
-        if (new Date() > user.refreshTokenExpiresAt) {
-            throw createError.Unauthorized('Refresh token expired, please log in again');
-        }
-
-        //* Verify refresh token
-        const payload = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
-        console.log('Valid refresh token for user ID:', payload.id);
-
-        let newRefreshToken = refreshToken; // Default: keep the old refresh token
-
-        //* If the refresh token is about to expire, generate a new one
-        const expiresInOneDay = new Date(Date.now() + 24 * 60 * 60 * 1000); // 1 day from now
-        if (user.refreshTokenExpiresAt < expiresInOneDay) {
-            console.log('Generating new refresh token...');
-            newRefreshToken = signRefreshToken(user.id);
-            user.refreshToken = newRefreshToken;
-            user.refreshTokenExpiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days from now
-        }
-
-        //* ✅ Generate a new access token
-        const newAccessToken = signAccessToken(user.id);
-
-        //* ✅ Save both tokens in the database
-        user.accessToken = newAccessToken;
-        user.accessTokenExpiresAt = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes from now
-        await user.save();
 
         res.status(200).json({
             accessToken: newAccessToken,
