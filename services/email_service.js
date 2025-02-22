@@ -1,24 +1,42 @@
-const nodemailer = require('nodemailer');
+const sgMail = require('@sendgrid/mail');
+require('dotenv').config();
 
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS,
-    },
-});
+const apiKey = process.env.SENDGRID_API_KEY;
 
-/**
- * Send an email with the generated PINs.
- * @param {string} recipientEmail - The email of the recipient.
- * @param {string} pin1 - First generated PIN.
- * @param {string} pin2 - Second generated PIN.
- */
+
+if (!apiKey) {
+    console.error('🚨 ERROR: SendGrid API Key is missing!');
+    process.exit(1);
+}
+
+sgMail.setApiKey(apiKey);
+
+const sendWarningEmail = async (recipientEmail) => {
+    try {
+        const msg = {
+            to: recipientEmail,
+            from: process.env.EMAIL_USER,
+            subject: 'Account warning',
+            html: `
+                <h3>Warning!</h3>
+                <p>We noticed multiple failed tries to access your account.</p>
+                <p>If it wasn't you, please consider changing your password!</p>
+                <p>Thank you!</p>
+            `,
+        };
+
+        await sgMail.send(msg);
+        console.log(`✅ Warning email sent to ${recipientEmail}`);
+    } catch (error) {
+        console.error(`❌ Failed to send email: ${error.message}`);
+    }
+};
+
 const sendPinEmail = async (recipientEmail, pin1, pin2) => {
     try {
-        const mailOptions = {
-            from: process.env.EMAIL_USER,
+        const msg = {
             to: recipientEmail,
+            from: process.env.EMAIL_USER,
             subject: 'Your Secure PIN Codes',
             html: `
                 <h3>Welcome!</h3>
@@ -33,11 +51,12 @@ const sendPinEmail = async (recipientEmail, pin1, pin2) => {
             `,
         };
 
-        await transporter.sendMail(mailOptions);
+        await sgMail.send(msg);
         console.log(`✅ Email sent to ${recipientEmail}`);
     } catch (error) {
         console.error(`❌ Failed to send email: ${error.message}`);
     }
 };
 
-module.exports = { sendPinEmail };
+
+module.exports = { sendWarningEmail, sendPinEmail };

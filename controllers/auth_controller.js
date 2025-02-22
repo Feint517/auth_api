@@ -8,14 +8,14 @@ const { authSchema } = require('../validation/auth_validation');
 const haversine = require('haversine-distance'); //? to calculate the distance between UserLocation and AllowedArea
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
-const { sendPinEmail } = require('../services/email_service');
-const twilio = require('twilio');
+const { sendPinEmail, sendWarningEmail } = require('../services/email_service');
+//const twilio = require('twilio');
 
 //* Load environment variables
 require('dotenv').config();
 
 //* Initialize Twilio Client
-const client = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
+//const client = require('twilio')(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN);
 
 //* Function to generate a random 4-digit PIN
 const generateRandomPin = () => {
@@ -71,16 +71,16 @@ exports.register = async (req, res, next) => {
         await newResearcher.save();
 
         //* Step 4: Send SMS with PINs
-        const messageBody = `Welcome to the app! Your login PINs are:\nPIN 1: ${pin1}\nPIN 2: ${pin2}\nKeep them secure and do not share with anyone.`;
-        console.log(messageBody);
-        await client.messages.create({
-            body: messageBody,
-            from: process.env.TWILIO_PHONE_NUMBER,
-            to: result.phoneNumber,
-        }).then(message => console.log(message.sid));
+        // const messageBody = `Welcome to the app! Your login PINs are:\nPIN 1: ${pin1}\nPIN 2: ${pin2}\nKeep them secure and do not share with anyone.`;
+        // console.log(messageBody);
+        // await client.messages.create({
+        //     body: messageBody,
+        //     from: process.env.TWILIO_PHONE_NUMBER,
+        //     to: result.phoneNumber,
+        // }).then(message => console.log(message.sid));
 
         //* or send them through email
-        //sendPinEmail(newUser.email, pin1, pin2);
+        sendPinEmail(newUser.email, pin1, pin2);
 
         //* Automatically log the user in after registration by generating tokens
         const accessToken = signAccessToken(newUser.id);
@@ -118,7 +118,19 @@ exports.validateCredentials = async (req, res, next) => {
 
         //* Validate password
         const isMatch = await user.isValidPassword(result.password);
-        if (!isMatch) throw createError.Unauthorized('Username/password not valid');
+        if (!isMatch) {
+            user.failedLoginAttempts += 1;
+            console.log('Failed Login attempts = ' + user.failedLoginAttempts);
+            await user.save();
+            if (user.failedLoginAttempts >= 4) {
+                await sendWarningEmail(user.email)
+            }
+            throw createError.Unauthorized('Username/password not valid');
+        }
+
+        //* Reset failed attempts on successful login
+        user.failedLoginAttempts = 0;
+        await user.save();
 
         res.json({ message: 'User Found, verify your pins', userId: user.id });
     } catch (error) {

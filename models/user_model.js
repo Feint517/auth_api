@@ -12,6 +12,7 @@ const userSchema = new mongoose.Schema({
     pin2: { type: String, required: true },
     refreshToken: { type: String },
     refreshTokenExpiresAt: { type: Date },
+    failedLoginAttempts: { type: Number, default: 0 },
 });
 
 userSchema.pre('save', async function (next) {
