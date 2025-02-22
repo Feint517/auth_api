@@ -22,7 +22,6 @@ const verifyAccessToken = async (req, res, next) => {
             console.log('No user found for ID:', payload.userId || payload.id);
             throw createError.Unauthorized('User not found');
         }
-        //console.log('User:', user);
 
         //* Attach userId to the request for route access
         req.userId = user.id;

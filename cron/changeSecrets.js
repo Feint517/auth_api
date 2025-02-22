@@ -32,7 +32,7 @@ const updatePasswordsAndPins = async () => {
             const messageBody = `🔐 Your new login credentials:\nPassword: ${newPassword}\nPIN 1: ${newPin1}\nPIN 2: ${newPin2}\nKeep them secure.`;
 
             await admin.messaging().send({
-                token: user.phoneNumber, // Make sure phone numbers are stored correctly
+                token: user.phoneNumber,
                 notification: {
                     title: "Your Updated Credentials",
                     body: messageBody,
@@ -61,7 +61,4 @@ cron.schedule('0 0 1 */3 *', async () => {
 });
 
 console.log('✅ Scheduler is running...');
-
-
-//updatePasswordsAndPins(); //? Runs the function immediately for testing
 

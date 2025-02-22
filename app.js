@@ -10,7 +10,6 @@ require('./utils/init_mongodb');
 require('./cron/changeSecrets');
 const { verifyAccessToken } = require('./middlewares/auth');
 const { cleanupExpiredTokens } = require('./cron/cleanupTokens');
-const { sendPinEmail, sendWarningEmail } = require('./services/email_service2');
 
 
 const app = express();
@@ -39,7 +38,3 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
-
-//sendPinEmail('arselene.main@gmail.com', 1234, 1234);
-//sendWarningEmail('arselene.dev@gmail.com');
-//cleanupExpiredTokens();
